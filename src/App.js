@@ -12,9 +12,14 @@ import ReviewPage from './pages/ReviewPage';
 import ItemReviewsPage from './pages/ItemReviewsPage';
 import UserReviewsPage from './pages/UserReviewsPage';
 
+import homeIcon from './assets/home.png';
+import cartIcon from './assets/cart.png';
+import hamburgerIcon from './assets/hamburger.png';
+
 
 function App() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [menuOpen, setMenuOpen] = useState(false);
   const [cart, setCart] = useState([]); // hang on, hang on
 
   const handleSearchChange = (e) => {
@@ -26,11 +31,25 @@ function App() {
     updateCart.push({itemId: itemId, quantity: quantity})
   };
 
+  const showOrHideMenu = () => {
+    if (menuOpen) { 
+      return (
+        <ul>
+          <li><Link to="/profile">My Profile</Link></li>
+          <li><Link to="/mypurchases">My Purchases</Link></li>
+          <li><Link to="/myreviews">My Reviews</Link></li>
+        </ul>
+      )
+    } else {
+      return null;
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
         <img className="daintree-logo" alt="Daintree Logo" />
-        <div className="right-header">
+    
           <div className="search">
             <input
               id="search"
@@ -39,18 +58,28 @@ function App() {
               value={searchQuery}
               onChange={handleSearchChange}
             />
+            <button></button>
           </div>
+          
           <nav>
-            <Link to="/">Home</Link>
-            <Link to="/cart">Cart</Link>
-            <img className="hambuger" alt="User Menu" />
-            <ul>
-              <li><Link to="/profile">My Profile</Link></li>
-              <li><Link to="/mypurchases">My Purchases</Link></li>
-              <li><Link to="/myreviews">My Reviews</Link></li>
-            </ul>
+            <Link to="/">
+              <img 
+                className="home"
+                src={homeIcon}
+                alt="Home"
+              />
+            </Link>
+            <Link to="/cart">
+              <img className="cart" src={cartIcon} alt="Cart"/>
+            </Link>
+            <img 
+              className="hamburger" 
+              src={hamburgerIcon} alt="User Menu" 
+              onClick={() => setMenuOpen(!menuOpen)}
+            />
+            {showOrHideMenu() /* Toggles hamburger menu */}
           </nav>
-        </div>
+
       </header>
 
       <Routes>
