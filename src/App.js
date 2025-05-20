@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
+
 import HomePage from './pages/HomePage';
-import UserProfile from './pages/UserProfile'
+import UserProfile from './pages/UserProfile';
+import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
 import ItemPage from './pages/ItemPage';
 import CheckoutPage from './pages/CheckoutPage';
@@ -15,6 +17,7 @@ import UserReviewsPage from './pages/UserReviewsPage';
 import homeIcon from './assets/home.png';
 import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
+import searchIcon from './assets/search.png';
 
 
 function App() {
@@ -50,7 +53,13 @@ function App() {
       <header className="App-header">
         <img className="daintree-logo" alt="Daintree Logo" />
     
-          <div className="search">
+          <form 
+            className="search"
+            onSubmit={(e) => {
+              e.preventDefault();
+              window.location.href = `/search/${encodeURIComponent(searchQuery)}`;
+            }}
+          >
             <input
               id="search"
               type="text"
@@ -58,8 +67,10 @@ function App() {
               value={searchQuery}
               onChange={handleSearchChange}
             />
-            <button></button>
-          </div>
+            <button type="submit" className="search-btn">
+              <img src={searchIcon} alt="Search" />
+            </button>
+          </form>
           
           <nav>
             <Link to="/">
@@ -82,18 +93,21 @@ function App() {
 
       </header>
 
-      <Routes>
-        <Route path="/" element={<HomePage/>} />
-        <Route path="/profile" element={<UserProfile/>} />
-        <Route path="/item/:id" element={<ItemPage/>} />
-        <Route path="/cart" element={<CartPage/>} />
-        <Route path="/checkout" element={<CheckoutPage/>} />
-        <Route path="/mypurchases" element={<UserPurchasesPage/>} />
-        <Route path="/purchases/:id" element={<PurchasePage/>} />
-        <Route path="/reviews/:id" element={<ReviewPage/>} />
-        <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
-        <Route path="/myreviews" element={<UserReviewsPage/>} />
-      </Routes>
+      <div className='app-container'>
+        <Routes>
+          <Route path="/" element={<HomePage/>} />
+          <Route path="/profile" element={<UserProfile/>} />
+          <Route path="/search/:searchQuery" element={<SearchPage />} />
+          <Route path="/item/:id" element={<ItemPage/>} />
+          <Route path="/cart" element={<CartPage/>} />
+          <Route path="/checkout" element={<CheckoutPage/>} />
+          <Route path="/mypurchases" element={<UserPurchasesPage/>} />
+          <Route path="/purchases/:id" element={<PurchasePage/>} />
+          <Route path="/reviews/:id" element={<ReviewPage/>} />
+          <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
+          <Route path="/myreviews" element={<UserReviewsPage/>} />
+        </Routes>
+      </div>
     </div>
   );
 }

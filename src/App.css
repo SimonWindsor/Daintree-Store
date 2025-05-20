@@ -30,11 +30,20 @@
   background: none;
 }
 
-.search button {
+.search-btn {
   width: 0.9rem;
   height: 0.9rem;
   border-radius: 50%;
   border: none;
+  background-color: #a3c9a8;
+}
+
+.search-btn:hover {
+  background-color: #f4c95d;
+}
+
+.search-btn img {
+  width: 70%;
 }
 
 nav {
@@ -50,7 +59,7 @@ nav {
 
 .home:hover, .hamburger:hover, .cart:hover {
   background-color: #f4c95d;
-  border-radius: 5px;
+  border-radius: 20%;
   box-shadow: #f4c95d 0 0 0.5rem 0.2rem;
 }
 
@@ -67,5 +76,15 @@ ul {
 
 ul>li, ul>li:visited {
   text-decoration: none;
+  color: #333333;
+}
+
+.app-container {
+  margin: auto;
+  position: relative;
+  top: 0;
+  width: 70%;
+  height: calc(100% - 2rem);
+  background-color: #f9f9f6;
   color: #333333;
 }

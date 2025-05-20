@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react';
+import { searchItems } from '../services/api.js';
+
 import './HomePage.css';
 
 function HomePage() {
