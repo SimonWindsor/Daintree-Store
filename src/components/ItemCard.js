@@ -9,7 +9,7 @@ function ItemCard(props) {
       <img 
         className="card-img"
         src={`${process.env.PUBLIC_URL}/assets/item-pictures/${props.picture}`}
-        alt={`Picture of ${props.name}`}
+        alt={`${props.name}`}
       />
       <div className="card-name">{props.name}</div>
       <div className="card-price">{props.price}</div>

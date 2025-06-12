@@ -19,7 +19,7 @@ function CategoryCard(props) {
       }
     }
     getCategoryItems();
-  }, [])
+  })
 
   const scrollLeft = () => {
     scrollRef.current.scrollBy({ left: -300, behavior: 'smooth' });

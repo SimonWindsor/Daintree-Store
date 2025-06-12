@@ -29,7 +29,6 @@ function HomePage() {
       try {
         const response = await getAllCategories();
         setCatagories(response);
-        console.log(catagories)
       } catch (error) {
         console.log(error);
       }

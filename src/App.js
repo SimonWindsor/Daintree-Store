@@ -24,16 +24,16 @@ import searchIcon from './assets/search.png';
 function App() {
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
-  const [cart, setCart] = useState([]); // to be worked on soon
+  // const [cart, setCart] = useState([]); // to be worked on soon
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const addToCart = (itemId, quantity) => { // to be worked on soon
-    const updateCart = [...cart];
-    updateCart.push({itemId: itemId, quantity: quantity})
-  };
+  // const addToCart = (itemId, quantity) => { // to be worked on soon
+  //   const updateCart = [...cart];
+  //   updateCart.push({itemId: itemId, quantity: quantity})
+  // };
 
   // Opens up a user menu for logged-in user. Activated by hamburger menu
   const showOrHideMenu = () => {
