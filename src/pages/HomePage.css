@@ -1,4 +1,68 @@
 h1 {
  margin: 0;
  text-align: center;
+ font-size: 4rem;
+}
+
+.daintree-logo-home {
+  width: 100%;
+}
+
+.intro {
+  padding: 2rem;
+}
+
+.browse-selector {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 3rem;
+}
+
+.browse-selector input {
+  display: none;
+}
+
+.browse-selector label {
+  color: #f9f9f6;
+  background-color: #f4c95d;
+  padding: 0.5rem 2rem;
+  border-radius: 1rem;
+  box-sizing: border-box;
+}
+
+.browse-selector label:hover {
+  background-color: #333333;
+  color: #f9f9f6;
+}
+
+.browse-selector input:checked+label {
+  color: #2e8b57;
+}
+
+.item-browser {
+  margin: auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-auto-rows: auto;
+  gap: 2rem;
+  width: 80%;
+}
+
+.category-browser {
+  margin: auto;
+  grid-auto-rows: auto;
+  gap: 3rem;
+  width: 80%;
+}
+
+@media screen and (max-width: 900px) {
+  .item-browser {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .item-browser {
+    grid-template-columns: 1fr 1fr;
+  }
 }

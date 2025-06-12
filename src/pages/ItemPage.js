@@ -2,7 +2,9 @@ import './ItemPage.css';
 
 function ItemPage() {
   return (
-    <div className="ItemPage"></div>
+    <div className="ItemPage">
+      
+    </div>
   )
 }
 

@@ -3,6 +3,8 @@ import { useState, useEffect } from 'react';
 import { searchItems } from '../services/api.js';
 import './SearchPage.css';
 
+import ItemCard from '../components/ItemCard.js';
+
 function SearchPage() {
   const { searchQuery } = useParams();
   const [ results, setResults ] = useState([]);
@@ -18,17 +20,30 @@ function SearchPage() {
     }
     handleSearch();  
   }, [searchQuery]);
-  
 
   return (
     <div className="SearchPage">
       <h2>Search Results for "{searchQuery}"</h2>
         {results ? (
-          results.map(item => (<div key={item.id}>{item.name}</div>))
+          <div className="item-browser">
+            {results.map((item) => {
+              const {id, picture, name, description, price} = item;
+
+              return (
+                <ItemCard 
+                  key={id}
+                  id={id}
+                  picture={picture}
+                  name={name}
+                  description={description}
+                  price={price}
+                />
+              )
+            })}
+          </div>
         ) : (
           <div>No results found</div>
         )}
-      
     </div>
   )
 }

@@ -1,0 +1,20 @@
+import { Link } from 'react-router-dom';
+import './ItemCard.css';
+
+function ItemCard(props) {
+
+  return (
+    <Link className="item-card" to={`/items/${props.id}`}>
+      <img 
+        className="card-img"
+        src={`${process.env.PUBLIC_URL}/assets/item-pictures/${props.picture}`}
+        alt={`Picture of ${props.name}`}
+      />
+      <div className="card-name">{props.name}</div>
+      <div className="card-price">{props.price}</div>
+      <div className="card-description">{props.description}</div>
+    </Link>
+  )
+}
+
+export default ItemCard;

@@ -1,0 +1,14 @@
+@font-face {
+  font-family: Merriweather;
+  src: url('/fonts/MerriweatherSans-Regular.ttf') format(truetype); 
+}
+
+@font-face {
+  font-family: Roboto;
+  src: url('/fonts/Roboto-Light.ttf') format(truetype); 
+}
+
+@font-face {
+  font-family: Montserrat;
+  src: url('/fonts/Montserrat-Medium.ttf') format(truetype); 
+}

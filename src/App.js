@@ -14,6 +14,7 @@ import ReviewPage from './pages/ReviewPage';
 import ItemReviewsPage from './pages/ItemReviewsPage';
 import UserReviewsPage from './pages/UserReviewsPage';
 
+import daintreelogo from './assets/daintreelogo.png';
 import homeIcon from './assets/home.png';
 import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
@@ -38,9 +39,9 @@ function App() {
     if (menuOpen) { 
       return (
         <ul>
-          <li><Link to="/profile">My Profile</Link></li>
-          <li><Link to="/mypurchases">My Purchases</Link></li>
-          <li><Link to="/myreviews">My Reviews</Link></li>
+          <li><Link className="menu-item" to="/profile">My Profile</Link></li>
+          <li><Link className="menu-item" to="/mypurchases">My Purchases</Link></li>
+          <li><Link className="menu-item" to="/myreviews">My Reviews</Link></li>
         </ul>
       )
     } else {
@@ -50,8 +51,8 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img className="daintree-logo" alt="Daintree Logo" />
+      <header className="app-header">
+        <img className="daintree-logo" alt="Daintree Logo" src={daintreelogo} />
     
           <form 
             className="search"
@@ -107,6 +108,7 @@ function App() {
           <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
           <Route path="/myreviews" element={<UserReviewsPage/>} />
         </Routes>
+        <div id="footer">2025 S.N.W</div>
       </div>
     </div>
   );

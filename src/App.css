@@ -3,36 +3,43 @@
   height: 100vh;
 }
 
-.App-header {
+.app-header {
   background-color: #2e8b57;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 2rem;
+  height: 3rem;
   color: #f9f9f6;
+}
+
+.daintree-logo {
+  height: 100%;
+  border-radius: 35%;
 }
 
 .search {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  height: 1rem;
-  width: 11rem;
+  height: 2rem;
+  width: 13rem;
   margin: 0 0.5rem;
-  border-radius: 0.5rem;
+  border-radius: 1.5rem;
   background-color: #f9f9f6;
 }
 
 .search input {
   border: none;
-  width: 9.5rem;
+  width: 10.5rem;
   height: 0.9rem;
+  margin-left: 0.25rem;
   background: none;
 }
 
 .search-btn {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.25rem;
   border-radius: 50%;
   border: none;
   background-color: #a3c9a8;
@@ -47,12 +54,13 @@
 }
 
 nav {
+  position: relative;
   padding-top: 0.2rem;
 }
 
 .home, .hamburger, .cart {
-  height: 1rem;
-  width: 1rem;
+  height: 1.5rem;
+  width: 1.5rem;
   font-size: 0.7rem;
   margin: 0 0.5rem;
 }
@@ -65,18 +73,28 @@ nav {
 
 ul {
   position: absolute;
-  font-size: 0.7rem;
+  font-size: 1.2rem;
+  width: 120%;
   text-decoration: none;
   color: #333333;
   list-style-type: none;
   top: 1.5rem;
   right: 0;
   background-color: #d9dad7;
+  z-index: 100;
 }
 
-ul>li, ul>li:visited {
+ul li {
+  padding: 1rem 0;
+}
+
+.menu-item, .menu-item:visited {
   text-decoration: none;
   color: #333333;
+}
+
+.menu-item:hover {
+  background-color: #f4c95d;
 }
 
 .app-container {
@@ -84,7 +102,71 @@ ul>li, ul>li:visited {
   position: relative;
   top: 0;
   width: 70%;
-  height: calc(100% - 2rem);
+  height: calc(100% - 3rem);
   background-color: #f9f9f6;
   color: #333333;
+  overflow-y: scroll;
+}
+
+#footer {
+  margin-top: 4rem;
+  text-align: center;
+}
+
+@media screen and (orientation: portrait) {
+  .daintree-logo {
+    display: none;
+  }
+
+  .home, .hamburger, .cart {
+    height: 3rem;
+    width: 3rem;
+    font-size: 0.7rem;
+    margin: 0 0.5rem;
+  }
+
+  .app-container {
+    width: 95%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .search {
+    height: 3rem;
+    width: 20rem;
+  }
+
+  .search-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .app-header {
+    height: 5rem;
+  }
+  
+  .app-header {
+    height: 3rem;
+  }
+
+  .search {
+    height: 2.5rem;
+    width: 16rem;
+  }
+
+  .search-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+  }
+
+  .home, .hamburger, .cart {
+    height: 1.4rem;
+    width: 1.4rem;
+    font-size: 0.7rem;
+    margin: 0 0.5rem;
+  } 
 }

@@ -1,0 +1,54 @@
+.item-card {
+  position: relative;
+  width: 100%;
+  height: 16rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #d9dad7;
+  color: #333333;
+  text-decoration: none;
+}
+
+.item-card:visited {
+  color: inherit;
+  text-decoration: none;
+}
+
+.card-img {
+  width: 100%;
+}
+
+.card-name {
+  font-size: 0.8rem;
+}
+
+.card-price {
+  font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.card-description {
+  position: absolute;
+  background-color: hsla(60, 20%, 97%, 75%);
+  visibility: hidden;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  font-size: 0.6rem;
+}
+
+.item-card:hover .card-description {
+  visibility: visible;
+}
+
+@media screen and (max-width: 900px) {
+  .item-card {
+    height: 18rem;
+  } 
+}
+
+@media screen and (max-width: 400px) {
+  .item-card {
+    height: 13rem;
+  } 
+}
