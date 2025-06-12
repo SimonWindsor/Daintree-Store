@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import './ItemCard.css';
 
+/* Displays a simple card for basic item information in search results, ot on home screen */
 function ItemCard(props) {
 
   return (

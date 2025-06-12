@@ -1,5 +1,6 @@
 const API_BASE = 'http://localhost:3000';
 
+// Fetches all items in database
 export const getAllItems = async () => {
   try {
     const response = await fetch(`${API_BASE}/items`, {
@@ -17,6 +18,7 @@ export const getAllItems = async () => {
   }
 }
 
+// Searches items based on keywords
 export const searchItems = async (searchQuery) => {
   try {
     const response = await fetch(`${API_BASE}/items/search/${encodeURIComponent(searchQuery)}`, {
@@ -34,6 +36,7 @@ export const searchItems = async (searchQuery) => {
   }
 };
 
+// Fetches all item categories
 export const getAllCategories = async () => {
   try {
     const response = await fetch(`${API_BASE}/items/allcategories`, {
@@ -51,6 +54,7 @@ export const getAllCategories = async () => {
   }
 }
 
+// Fetches all items within an item category
 export const getItemsByCategory = async (catagory) => {
   try {
     const response = await fetch(`${API_BASE}/items/categories/${catagory}`, {
@@ -63,6 +67,15 @@ export const getItemsByCategory = async (catagory) => {
 
     const data = await response.json();
     return data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+// Fetches one item according to its ID
+export const getItemById = async (id) => {
+  try {
+
   } catch (error) {
     console.error(error);
   }

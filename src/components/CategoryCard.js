@@ -4,9 +4,10 @@ import './CategoryCard.css';
 
 import ItemCard from './ItemCard.js'
 
+/* Displays a simple card containing item cards based on category */
 function CategoryCard(props) {
   const [items, setItems] = useState([]);
-  const scrollRef = useRef(null);
+  const scrollRef = useRef(null); // For scrolling the cards
 
   useEffect(() => {
     const getCategoryItems = async() => {

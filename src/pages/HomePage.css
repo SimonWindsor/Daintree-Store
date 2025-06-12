@@ -23,7 +23,7 @@ h1 {
 }
 
 .browse-selector label {
-  color: #f9f9f6;
+  color: #2e8b57;
   background-color: #f4c95d;
   padding: 0.5rem 2rem;
   border-radius: 1rem;
@@ -36,7 +36,7 @@ h1 {
 }
 
 .browse-selector input:checked+label {
-  color: #2e8b57;
+  color: #f9f9f6;
 }
 
 .item-browser {

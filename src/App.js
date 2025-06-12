@@ -22,19 +22,20 @@ import searchIcon from './assets/search.png';
 
 
 function App() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [cart, setCart] = useState([]); // hang on, hang on
+  const [searchQuery, setSearchQuery] = useState(''); // For handling search query
+  const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
+  const [cart, setCart] = useState([]); // to be worked on soon
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const addToCart = (itemId, quantity) => { // hang on, hang on
+  const addToCart = (itemId, quantity) => { // to be worked on soon
     const updateCart = [...cart];
     updateCart.push({itemId: itemId, quantity: quantity})
   };
 
+  // Opens up a user menu for logged-in user. Activated by hamburger menu
   const showOrHideMenu = () => {
     if (menuOpen) { 
       return (
@@ -53,7 +54,7 @@ function App() {
     <div className="App">
       <header className="app-header">
         <img className="daintree-logo" alt="Daintree Logo" src={daintreelogo} />
-    
+          {/*Displays the search controls*/}
           <form 
             className="search"
             onSubmit={(e) => {
@@ -73,6 +74,7 @@ function App() {
             </button>
           </form>
           
+          {/* Displays home, cart, and hamburger menu buttons */}
           <nav>
             <Link to="/">
               <img 
@@ -94,6 +96,7 @@ function App() {
 
       </header>
 
+      {/* Main container for the App and its routes. */}
       <div className='app-container'>
         <Routes>
           <Route path="/" element={<HomePage/>} />

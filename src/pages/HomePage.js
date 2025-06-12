@@ -8,10 +8,13 @@ import CategoryCard from '../components/CategoryCard.js';
 import daintreelogo from '../assets/daintreelogo.png';
 
 function HomePage() {
-  const [items, setItems] = useState([]);
-  const [catagories, setCatagories] = useState([]);
+  /* For containing all items or categories, as well as determining which ones ot browse */
+  const [items, setItems] = useState([]); 
+  const [catagories, setCatagories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
+  /* Depending on categoryBrowse state, use effect will determine which information to
+    fetch from daabase */
   useEffect(() => {
     const getItems = async () => {
       try {
@@ -39,6 +42,7 @@ function HomePage() {
     setCategoryBrowse(!categoryBrowse);
   }
 
+  // For showing all items
   const showAllItems = () => {
     return (
       <div className="item-browser">
@@ -60,6 +64,7 @@ function HomePage() {
     )
   }
 
+  // For obtaining item categories and organising them accordingly
   const showAllCategories = () => {
     return (
       <div className="category-browser">
@@ -84,6 +89,7 @@ function HomePage() {
 
         <p>Browse below, try the search feature, or try and create an account or login. You will also be able to do some simulated shopping!</p>
       </div>
+      {/* Determines whether to browse all items or by category */}
       <div className="browse-selector">
         <input 
           type="radio" 
@@ -102,6 +108,7 @@ function HomePage() {
         />
         <label id="select-categories-label" htmlFor="select-categories">Browse Categories</label>
       </div>
+        {/* Displays either all items or by category */}
         {categoryBrowse ? showAllCategories() : showAllItems()}
     </div>
   )
