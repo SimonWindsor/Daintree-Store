@@ -10,7 +10,7 @@ import daintreelogo from '../assets/daintreelogo.png';
 function HomePage() {
   /* For containing all items or categories, as well as determining which ones ot browse */
   const [items, setItems] = useState([]); 
-  const [catagories, setCatagories] = useState([]); 
+  const [categories, setCategories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
   /* Depending on categoryBrowse state, use effect will determine which information to
@@ -28,7 +28,7 @@ function HomePage() {
     const getCategories = async () => {
       try {
         const response = await getAllCategories();
-        setCatagories(response);
+        setCategories(response);
       } catch (error) {
         console.log(error);
       }
@@ -67,7 +67,7 @@ function HomePage() {
   const showAllCategories = () => {
     return (
       <div className="category-browser">
-        {catagories.map(category => {
+        {categories.map(category => {
           return (
           <CategoryCard
             key={category.category}
