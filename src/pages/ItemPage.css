@@ -1,9 +1,35 @@
 .item-page {
   width: 100%;
   display: flex;
-  
 }
 
 .item-img {
   width: 40%;
+}
+
+.item-details {
+  position: absolute;
+  right: 25%;
+}
+
+.item-heading {
+  font-size: 3rem;;
+}
+
+.add-to-cart {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.add-to-cart:hover {
+  color: red;
+}
+
+.price-and-descript {
+  position: relative;
+  bottom: 0;
+}
+
+.item-price {
+  font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

@@ -23,9 +23,9 @@ function ItemPage(props) {
   // A handleAdd function is to be added here for handling "ADD TO CART" clicks.
 
   return (
-    <div className="item-page">
+    <div>
       {item ? (
-        <div>
+        <div className="item-page">
           <img 
             className="item-img"
             src={`${process.env.PUBLIC_URL}/assets/item-pictures/${item.picture}`}
@@ -33,11 +33,11 @@ function ItemPage(props) {
           />
           <div className="item-details">
             <h2 className="item-heading">{item.name}</h2>
-            <span>
-              <div>ADD TO CART</div>
-              <div>{item.price}</div>
-            </span>
-            <div>{item.description}</div>
+              <div className="add-to-cart">ADD TO CART</div>
+            <div className="price-and-descript">
+              <div className="item-price">{item.price}</div>
+              <div>{item.description}</div>
+            </div>
           </div>
         </div>
       ) : (
