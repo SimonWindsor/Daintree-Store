@@ -1,4 +1,4 @@
-const API_BASE = 'http://localhost:3000';
+const API_BASE = 'https://e-comm-project-production.up.railway.app';
 
 // Fetches all items in database
 export const getAllItems = async () => {
