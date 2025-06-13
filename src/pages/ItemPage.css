@@ -1,0 +1,9 @@
+.item-page {
+  width: 100%;
+  display: flex;
+  
+}
+
+.item-img {
+  width: 40%;
+}

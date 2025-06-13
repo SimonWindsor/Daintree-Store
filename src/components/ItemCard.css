@@ -23,8 +23,22 @@
   font-size: 0.8rem;
 }
 
+.item-card span {
+  display: flex;
+  justify-content: space-between;
+}
+
 .card-price {
   font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.add-to-cart {
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.add-to-cart:hover {
+  color: red;
 }
 
 .card-description {
@@ -32,9 +46,9 @@
   background-color: hsla(60, 20%, 97%, 75%);
   visibility: hidden;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 3rem);
   top: 0;
-  font-size: 0.6rem;
+  font-size: 0.8rem;
 }
 
 .item-card:hover .card-description {

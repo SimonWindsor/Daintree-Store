@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, createContext } from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 
@@ -20,17 +20,21 @@ import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
 import searchIcon from './assets/search.png';
 
+export const FunctionContext = createContext();
+
 
 function App() {
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
-  // const [cart, setCart] = useState([]); // to be worked on soon
+  // Below is where the cart will be implemented
+  // const [cart, setCart] = useState([]);
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // const addToCart = (itemId, quantity) => { // to be worked on soon
+  // Below to be implemented in next iteration
+  // const addToCart = (itemId, quantity) => {
   //   const updateCart = [...cart];
   //   updateCart.push({itemId: itemId, quantity: quantity})
   // };
@@ -98,19 +102,21 @@ function App() {
 
       {/* Main container for the App and its routes. */}
       <div className='app-container'>
-        <Routes>
-          <Route path="/" element={<HomePage/>} />
-          <Route path="/profile" element={<UserProfile/>} />
-          <Route path="/search/:searchQuery" element={<SearchPage />} />
-          <Route path="/item/:id" element={<ItemPage/>} />
-          <Route path="/cart" element={<CartPage/>} />
-          <Route path="/checkout" element={<CheckoutPage/>} />
-          <Route path="/mypurchases" element={<UserPurchasesPage/>} />
-          <Route path="/purchases/:id" element={<PurchasePage/>} />
-          <Route path="/reviews/:id" element={<ReviewPage/>} />
-          <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
-          <Route path="/myreviews" element={<UserReviewsPage/>} />
-        </Routes>
+        <FunctionContext.Provider value={{ /* Implemented in next iteration for cart */ }}>
+          <Routes>
+            <Route path="/" element={<HomePage/>} />
+            <Route path="/profile" element={<UserProfile/>} />
+            <Route path="/search/:searchQuery" element={<SearchPage />} />
+            <Route path="/item/:id" element={<ItemPage/>} />
+            <Route path="/cart" element={<CartPage/>} />
+            <Route path="/checkout" element={<CheckoutPage/>} />
+            <Route path="/mypurchases" element={<UserPurchasesPage/>} />
+            <Route path="/purchases/:id" element={<PurchasePage/>} />
+            <Route path="/reviews/:id" element={<ReviewPage/>} />
+            <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
+            <Route path="/myreviews" element={<UserReviewsPage/>} />
+          </Routes>
+        </FunctionContext.Provider>
         <div id="footer">2025 S.N.W</div>
       </div>
     </div>
