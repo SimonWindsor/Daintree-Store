@@ -107,8 +107,10 @@ function HomePage() {
         />
         <label id="select-categories-label" htmlFor="select-categories">Browse Categories</label>
       </div>
-        {/* Displays either all items or by category */}
-        {categoryBrowse ? showAllCategories() : showAllItems()}
+        {/* Displays either all items or by category. Or no items if none found */}
+        {items.length === 0 ? <>No items found</> : (
+          categoryBrowse ? showAllCategories() : showAllItems()
+        )}
     </div>
   )
 }

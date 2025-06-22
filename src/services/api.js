@@ -15,6 +15,7 @@ export const getAllItems = async () => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 }
 
@@ -33,6 +34,7 @@ export const searchItems = async (searchQuery) => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 };
 
@@ -51,13 +53,14 @@ export const getAllCategories = async () => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 }
 
 // Fetches all items within an item category
-export const getItemsByCategory = async (catagory) => {
+export const getItemsByCategory = async (category) => {
   try {
-    const response = await fetch(`${API_BASE}/items/categories/${catagory}`, {
+    const response = await fetch(`${API_BASE}/items/categories/${encodeURIComponent(category)}`, {
       method: 'GET'
     })
 
@@ -69,6 +72,7 @@ export const getItemsByCategory = async (catagory) => {
     return data;
   } catch (error) {
     console.error(error);
+    return [];
   }
 }
 
@@ -87,5 +91,6 @@ export const getItemById = async (id) => {
   return data;
   } catch (error) {
     console.error(error);
+    return null;
   }
 }
