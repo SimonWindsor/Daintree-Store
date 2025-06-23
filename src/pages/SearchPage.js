@@ -22,7 +22,7 @@ function SearchPage(props) {
       }
     }
     handleSearch();  
-  }, [searchQuery]);
+  }, [searchQuery, props]);
 
   return (
     <div className="SearchPage">
