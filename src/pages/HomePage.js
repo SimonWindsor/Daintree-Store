@@ -37,7 +37,7 @@ function HomePage(props) {
     };
 
     displayItemsOrCategories();
-  }, [categoryBrowse])
+  }, [categoryBrowse, handleLoading])
 
   const handleCategoryChange = (e) => {
     setCategoryBrowse(!categoryBrowse);
