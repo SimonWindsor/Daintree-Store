@@ -5,17 +5,20 @@ import './SearchPage.css';
 
 import ItemCard from '../components/ItemCard.js';
 
-function SearchPage() {
+function SearchPage(props) {
   const { searchQuery } = useParams();
   const [ results, setResults ] = useState([]);
 
   useEffect(() => {
     const handleSearch = async () => {
       try {
+        props.handleLoading(true);
         const searchResponse = await searchItems(searchQuery);
         setResults(searchResponse);
       } catch(error) {
         console.log(error);
+      } finally {
+        props.handleLoading(false);
       }
     }
     handleSearch();  

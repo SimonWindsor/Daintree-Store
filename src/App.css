@@ -72,13 +72,13 @@ nav {
 }
 
 ul {
-  position: absolute;
+  position: fixed;
   font-size: 1.2rem;
-  width: 120%;
+  width: 10%;
   text-decoration: none;
   color: #333333;
   list-style-type: none;
-  top: 1.5rem;
+  top: 1.8rem;
   right: 0;
   background-color: #d9dad7;
   z-index: 100;
@@ -95,6 +95,25 @@ ul li {
 
 .menu-item:hover {
   background-color: #f4c95d;
+}
+
+#loadingIcon {
+  position: fixed;
+  width: 7%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 100;
+  animation: rotate 1s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .app-container {

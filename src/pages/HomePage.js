@@ -7,7 +7,7 @@ import CategoryCard from '../components/CategoryCard.js';
 
 import daintreelogo from '../assets/daintreelogo.png';
 
-function HomePage() {
+function HomePage(props) {
   /* For containing all items or categories, as well as determining which ones ot browse */
   const [items, setItems] = useState([]); 
   const [categories, setCategories] = useState([]); 
@@ -16,25 +16,25 @@ function HomePage() {
   /* Depending on categoryBrowse state, use effect will determine which information to
     fetch from daabase */
   useEffect(() => {
-    const getItems = async () => {
+    const displayItemsOrCategories = async () => {
       try {
-        const response = await getAllItems();
-        setItems(response);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+        props.handleLoading(true);
 
-    const getCategories = async () => {
-      try {
-        const response = await getAllCategories();
-        setCategories(response);
+        if (categoryBrowse) {
+          const response = await getAllCategories();
+          setCategories(response);
+        } else {
+          const response = await getAllItems();
+          setItems(response);
+        }
       } catch (error) {
-        console.log(error);
+        console.error(error);
+      } finally {
+        props.handleLoading(false);
       }
-    }
+    };
 
-    categoryBrowse ? getCategories() : getItems();
+    displayItemsOrCategories();
   }, [categoryBrowse])
 
   const handleCategoryChange = (e) => {

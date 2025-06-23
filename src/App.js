@@ -19,6 +19,7 @@ import homeIcon from './assets/home.png';
 import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
 import searchIcon from './assets/search.png';
+import loadingIcon from './assets/loading.png';
 
 export const FunctionContext = createContext();
 
@@ -26,6 +27,7 @@ export const FunctionContext = createContext();
 function App() {
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
+  const [loading, setLoading] = useState(false); // For showing loading icon
   // Below is where the cart will be implemented
   // const [cart, setCart] = useState([]);
 
@@ -52,6 +54,10 @@ function App() {
     } else {
       return null;
     }
+  };
+
+  const handleLoading = (trueOrFalse) => {
+    setLoading(trueOrFalse);
   };
 
   return (
@@ -100,15 +106,18 @@ function App() {
 
       </header>
 
+      {/* Shows when loading state is true */}
+      <img id="loadingIcon" src={loadingIcon} hidden={!loading} alt="Loading..." />
+
       {/* Main container for the App and its routes. */}
       <div className='app-container'>
         <FunctionContext.Provider value={{ /* Implemented in next iteration for cart */ }}>
           <Routes>
-            <Route path="/" element={<HomePage/>} />
+            <Route path="/" element={<HomePage handleLoading={handleLoading} />} />
             <Route path="/profile" element={<UserProfile/>} />
-            <Route path="/search/:searchQuery" element={<SearchPage />} />
-            <Route path="/item/:id" element={<ItemPage/>} />
-            <Route path="/cart" element={<CartPage/>} />
+            <Route path="/search/:searchQuery" element={<SearchPage handleLoading={handleLoading} />} />
+            <Route path="/item/:id" element={<ItemPage handleLoading={handleLoading} />} />
+            <Route path="/cart" element={<CartPage handleLoading={handleLoading}/>}  />
             <Route path="/checkout" element={<CheckoutPage/>} />
             <Route path="/mypurchases" element={<UserPurchasesPage/>} />
             <Route path="/purchases/:id" element={<PurchasePage/>} />

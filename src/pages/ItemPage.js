@@ -9,11 +9,14 @@ function ItemPage(props) {
   
   useEffect(() => {
     const getItem = async () => {
-      try {  
+      try {
+        props.handleLoading(true);
         const response = await getItemById(id);
         setItem(response);
       } catch (error) {
         console.log(error);
+      } finally {
+        props.handleLoading(false);
       }
     }
 
