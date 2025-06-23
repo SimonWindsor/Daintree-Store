@@ -22,12 +22,12 @@ function SearchPage(props) {
       }
     }
     handleSearch();  
-  }, [searchQuery, props]);
+  }, [searchQuery]);
 
   return (
     <div className="SearchPage">
       <h2>Search Results for "{searchQuery}"</h2>
-        {results ? (
+        {results.length !== 0 ? (
           <div className="item-browser">
             {results.map((item) => {
               const {id, picture, name, description, price} = item;

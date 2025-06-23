@@ -1,5 +1,5 @@
-import React, { useState, createContext } from 'react';
-import { Routes, Route, Link } from 'react-router-dom';
+import React, { useState, createContext, useCallback } from 'react';
+import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './pages/HomePage';
@@ -23,13 +23,13 @@ import loadingIcon from './assets/loading.png';
 
 export const FunctionContext = createContext();
 
-
 function App() {
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
   // Below is where the cart will be implemented
   // const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
@@ -56,9 +56,9 @@ function App() {
     }
   };
 
-  const handleLoading = (trueOrFalse) => {
+  const handleLoading = useCallback((trueOrFalse) => {
     setLoading(trueOrFalse);
-  };
+  });
 
   return (
     <div className="App">
@@ -69,7 +69,7 @@ function App() {
             className="search"
             onSubmit={(e) => {
               e.preventDefault();
-              window.location.href = `/search/${encodeURIComponent(searchQuery)}`;
+              navigate(`/search/${encodeURIComponent(searchQuery)}`);
             }}
           >
             <input

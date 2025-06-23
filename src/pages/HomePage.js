@@ -13,12 +13,14 @@ function HomePage(props) {
   const [categories, setCategories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
+  const { handleLoading } = props;
+
   /* Depending on categoryBrowse state, use effect will determine which information to
     fetch from daabase */
   useEffect(() => {
     const displayItemsOrCategories = async () => {
       try {
-        props.handleLoading(true);
+        handleLoading(true);
 
         if (categoryBrowse) {
           const response = await getAllCategories();
@@ -30,12 +32,12 @@ function HomePage(props) {
       } catch (error) {
         console.error(error);
       } finally {
-        props.handleLoading(false);
+        handleLoading(false);
       }
     };
 
     displayItemsOrCategories();
-  }, [categoryBrowse, props])
+  }, [categoryBrowse])
 
   const handleCategoryChange = (e) => {
     setCategoryBrowse(!categoryBrowse);

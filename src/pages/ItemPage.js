@@ -21,7 +21,7 @@ function ItemPage(props) {
     }
 
     getItem();
-  }, [id, props])
+  }, [id])
 
   // A handleAdd function is to be added here for handling "ADD TO CART" clicks.
 
