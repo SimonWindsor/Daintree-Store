@@ -18,7 +18,7 @@ function ItemPage(props) {
       } catch (error) {
         console.log(error);
       } finally {
-        props.handleLoading(false);
+        handleLoading(false);
       }
     }
 
