@@ -14,7 +14,7 @@ function SearchPage(props) {
   useEffect(() => {
     const handleSearch = async () => {
       try {
-        props.handleLoading(true);
+        handleLoading(true);
         const searchResponse = await searchItems(searchQuery);
         setResults(searchResponse);
       } catch(error) {

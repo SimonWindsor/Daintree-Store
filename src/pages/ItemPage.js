@@ -6,13 +6,13 @@ import './ItemPage.css';
 function ItemPage(props) {
   const { id } = useParams();
   const [item, setItem] = useState();
-  
+
   const { handleLoading } = props;
   
   useEffect(() => {
     const getItem = async () => {
       try {
-        props.handleLoading(true);
+        handleLoading(true);
         const response = await getItemById(id);
         setItem(response);
       } catch (error) {
