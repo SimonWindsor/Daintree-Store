@@ -58,7 +58,7 @@ function App() {
 
   const handleLoading = useCallback((trueOrFalse) => {
     setLoading(trueOrFalse);
-  });
+  }, []);
 
   return (
     <div className="App">

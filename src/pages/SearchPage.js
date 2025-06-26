@@ -9,6 +9,8 @@ function SearchPage(props) {
   const { searchQuery } = useParams();
   const [ results, setResults ] = useState([]);
 
+  const { handleLoading } = props;
+
   useEffect(() => {
     const handleSearch = async () => {
       try {

@@ -7,6 +7,8 @@ function ItemPage(props) {
   const { id } = useParams();
   const [item, setItem] = useState();
   
+  const { handleLoading } = props;
+  
   useEffect(() => {
     const getItem = async () => {
       try {
