@@ -18,7 +18,7 @@ function SearchPage(props) {
         const searchResponse = await searchItems(searchQuery);
         setResults(searchResponse);
       } catch(error) {
-        console.log(error);
+        console.error(error);
       } finally {
         handleLoading(false);
       }

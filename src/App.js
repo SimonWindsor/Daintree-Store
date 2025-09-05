@@ -3,6 +3,7 @@ import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './pages/HomePage';
+import LoginPage from './pages/LoginPage';
 import UserProfile from './pages/UserProfile';
 import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
@@ -27,6 +28,7 @@ function App() {
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
+  const [user, setUser] = useState(null); // For controlling user-menu and login state
   // Below is where the cart will be implemented
   // const [cart, setCart] = useState([]);
   const navigate = useNavigate();
@@ -56,53 +58,69 @@ function App() {
     }
   };
 
+  // Memoizes the function so it is not called on every render of other pages/componets
+  // May change to setLoading(!loading) later but needs to be this way for now
   const handleLoading = useCallback((trueOrFalse) => {
     setLoading(trueOrFalse);
   }, []);
 
   return (
     <div className="App">
+      {/* Header flexbox section containing logo, search bar, and navigation 
+      buttons, in three sections below */}
       <header className="app-header">
+        {/*Displays logo*/}
         <img className="daintree-logo" alt="Daintree Logo" src={daintreelogo} />
-          {/*Displays the search controls*/}
-          <form 
-            className="search"
-            onSubmit={(e) => {
-              e.preventDefault();
-              navigate(`/search/${encodeURIComponent(searchQuery)}`);
-            }}
-          >
-            <input
-              id="search"
-              type="text"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <button type="submit" className="search-btn">
-              <img src={searchIcon} alt="Search" />
-            </button>
-          </form>
-          
-          {/* Displays home, cart, and hamburger menu buttons */}
-          <nav>
-            <Link to="/">
-              <img 
-                className="home"
-                src={homeIcon}
-                alt="Home"
-              />
-            </Link>
-            <Link to="/cart">
-              <img className="cart" src={cartIcon} alt="Cart"/>
-            </Link>
+        
+        {/*Displays the search controls */}
+        <form 
+          className="search"
+          onSubmit={(e) => {
+            e.preventDefault();
+            navigate(`/search/${encodeURIComponent(searchQuery)}`);
+          }}
+        >
+          <input
+            id="search"
+            type="text"
+            placeholder="Search products..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          <button type="submit" className="search-btn">
+            <img src={searchIcon} alt="Search" />
+          </button>
+        </form>
+
+        {/*Displays login link if not logged in */}
+        
+        
+        {/* Displays home, cart, and hamburger menu buttons. If not logged in 
+        then login link will show instead*/}
+        <nav>
+          <Link to="/">
             <img 
-              className="hamburger" 
-              src={hamburgerIcon} alt="User Menu" 
-              onClick={() => setMenuOpen(!menuOpen)}
+              className="home"
+              src={homeIcon}
+              alt="Home"
             />
-            {showOrHideMenu() /* Toggles hamburger menu */}
-          </nav>
+          </Link>
+          <Link to="/cart">
+            <img className="cart" src={cartIcon} alt="Cart"/>
+          </Link>
+          {user ? (
+            <div>
+              <img 
+                className="hamburger" 
+                src={hamburgerIcon} alt="User Menu" 
+                onClick={() => setMenuOpen(!menuOpen)}
+              />
+              {showOrHideMenu() /* Toggles hamburger menu */}
+            </div>
+          ) : (
+            <Link className="login-link" to="/login">Log in</Link>
+          )}
+        </nav>
 
       </header>
 
@@ -114,6 +132,7 @@ function App() {
         <FunctionContext.Provider value={{ /* Implemented in next iteration for cart */ }}>
           <Routes>
             <Route path="/" element={<HomePage handleLoading={handleLoading} />} />
+            <Route path="/login" element={<LoginPage handleLoading={handleLoading} setUser={setUser} />} />
             <Route path="/profile" element={<UserProfile/>} />
             <Route path="/search/:searchQuery" element={<SearchPage handleLoading={handleLoading} />} />
             <Route path="/item/:id" element={<ItemPage handleLoading={handleLoading} />} />

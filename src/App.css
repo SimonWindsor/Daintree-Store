@@ -56,9 +56,11 @@
 nav {
   position: relative;
   padding-top: 0.2rem;
+  display: flex;
+  align-items: center;
 }
 
-.home, .hamburger, .cart {
+.home, .hamburger, .login-link, .cart {
   height: 1.5rem;
   width: 1.5rem;
   font-size: 0.7rem;
@@ -69,6 +71,22 @@ nav {
   background-color: #f4c95d;
   border-radius: 20%;
   box-shadow: #f4c95d 0 0 0.5rem 0.2rem;
+}
+
+.login-link {
+  text-decoration: none;
+  color: #333333;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 3rem;
+  margin-right: 1rem;
+}
+
+.login-link:hover {
+  text-decoration: none;
+  color: #f9f9f6;
+  font-size: 1rem;
+  margin-right: 1rem;
 }
 
 ul {
@@ -151,7 +169,7 @@ ul li {
 
 @media screen and (max-width: 1200px) {
   .search {
-    height: 3rem;
+    height:  2.5rem;
     width: 20rem;
   }
 
@@ -159,6 +177,11 @@ ul li {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 50%;
+  }
+
+  .login-link {
+    font-size: 1.2rem;
+    width: 4rem;
   }
 }
 
@@ -172,7 +195,6 @@ ul li {
   }
 
   .search {
-    height: 2.5rem;
     width: 14rem;
   }
 

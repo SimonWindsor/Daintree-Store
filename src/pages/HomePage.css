@@ -65,4 +65,8 @@ h1 {
   .item-browser {
     grid-template-columns: 1fr 1fr;
   }
+
+  h1 {
+    font-size: 3.5rem;
+  }
 }

@@ -3,33 +3,33 @@
   display: flex;
 }
 
-.item-img {
+.item-page .item-img {
   width: 40%;
 }
 
-.item-details {
+.item-page .item-details {
   position: absolute;
   right: 25%;
 }
 
-.item-heading {
+.item-page .item-heading {
   font-size: 3rem;;
 }
 
-.add-to-cart {
+.item-page .add-to-cart {
   font-size: 1.2rem;
   cursor: pointer;
 }
 
-.add-to-cart:hover {
+.item-page .add-to-cart:hover {
   color: red;
 }
 
-.price-and-descript {
+.item-page .price-and-descript {
   position: relative;
   bottom: 0;
 }
 
-.item-price {
+.item-page .item-price {
   font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }

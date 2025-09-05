@@ -7,14 +7,15 @@ function ItemCard(props) {
   return (
     <Link className="item-card" to={`/item/${props.id}`}>
       <img 
+        loading="lazy"
         className="card-img"
         src={`${process.env.PUBLIC_URL}/assets/item-pictures/${props.picture}`}
         alt={`${props.name}`}
       />
       <div className="card-name">{props.name}</div>
       <span>
-        <div className="card-price">{props.price}</div>
-        <div className="add-to-cart">ADD TO CART</div>
+        <span className="card-price">{props.price}</span>
+        <span className="add-to-cart">ADD TO CART</span>
       </span>
       <div className="card-description">{props.description}</div>
     </Link>
