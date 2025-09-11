@@ -3,8 +3,9 @@
   margin: 2rem auto;
   padding: 2rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 12px;
   background-color: #f9f9f9;
+  text-align: center;
 }
 
 .LoginPage form {
@@ -15,8 +16,36 @@
 
 .LoginPage input, button {
   margin: 0.2rem 0;
+  height: 1.75rem;
+  font-size: 0.75rem;
+}
+
+.LoginPage input {
+  width: 80%;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0 0.5rem;
 }
 
 .login-submit {
   width: 30%;
+}
+
+.login-message {
+  color: red;
+  font-size: 0.5rem;
+  padding-top: 0.75rem;
+}
+
+.sign-up {
+  position: relative;
+  top: 1.5rem;
+  font-size: 0.8rem;
+}
+
+@media screen and (max-width: 1200px) {
+  .LoginPage input, button {
+    height: 2rem;
+    font-size: 1rem;
+  }
 }

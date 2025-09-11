@@ -1,9 +1,10 @@
-import React, { useState, createContext, useCallback } from 'react';
+import React, { useState, createContext, useCallback, use, useEffect } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
 import UserProfile from './pages/UserProfile';
 import SearchPage from './pages/SearchPage';
 import CartPage from './pages/CartPage';
@@ -21,6 +22,7 @@ import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
 import searchIcon from './assets/search.png';
 import loadingIcon from './assets/loading.png';
+import { logout, currentUser } from './services/api';
 
 export const FunctionContext = createContext();
 
@@ -33,8 +35,21 @@ function App() {
   // const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    (async () => {
+      const currentUserData = await currentUser();
+      if (currentUserData) setUser(currentUserData);
+    })();
+  }, []);
+
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    setUser(null);
+    navigate('/');
   };
 
   // Below to be implemented in next iteration
@@ -51,6 +66,7 @@ function App() {
           <li><Link className="menu-item" to="/profile">My Profile</Link></li>
           <li><Link className="menu-item" to="/mypurchases">My Purchases</Link></li>
           <li><Link className="menu-item" to="/myreviews">My Reviews</Link></li>
+          <li><span className="menu-item" onClick={handleLogout}>Logout</span></li>
         </ul>
       )
     } else {
@@ -91,9 +107,6 @@ function App() {
             <img src={searchIcon} alt="Search" />
           </button>
         </form>
-
-        {/*Displays login link if not logged in */}
-        
         
         {/* Displays home, cart, and hamburger menu buttons. If not logged in 
         then login link will show instead*/}
@@ -118,6 +131,7 @@ function App() {
               {showOrHideMenu() /* Toggles hamburger menu */}
             </div>
           ) : (
+            /*Displays login link instead of hamburger if not logged in */
             <Link className="login-link" to="/login">Log in</Link>
           )}
         </nav>
@@ -133,7 +147,8 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage handleLoading={handleLoading} />} />
             <Route path="/login" element={<LoginPage handleLoading={handleLoading} setUser={setUser} />} />
-            <Route path="/profile" element={<UserProfile/>} />
+            <Route path="/signup" element={<SignUpPage handleLoading={handleLoading} setUser={setUser} />} />
+            <Route path="/profile" element={<UserProfile user={user} />} />
             <Route path="/search/:searchQuery" element={<SearchPage handleLoading={handleLoading} />} />
             <Route path="/item/:id" element={<ItemPage handleLoading={handleLoading} />} />
             <Route path="/cart" element={<CartPage handleLoading={handleLoading}/>}  />

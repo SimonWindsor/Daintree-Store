@@ -106,6 +106,10 @@ ul li {
   padding: 1rem 0;
 }
 
+ul li span {
+  cursor: pointer;
+}
+
 .menu-item, .menu-item:visited {
   text-decoration: none;
   color: #333333;

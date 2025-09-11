@@ -37,10 +37,11 @@ export const getItemsByCategory = (category) =>
 export const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
+
 // For logging in
 export const login = async (email, password) => {
   try {
-    const response = await fetch(API_BASE/login, {
+    const response = await fetch(`${API_BASE}/login`, {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
@@ -54,3 +55,31 @@ export const login = async (email, password) => {
     console.error(`[Login error] ${API_BASE}/login`, error);
   }
 }
+
+//For logging out
+export const logout = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/logout`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    return await response.json();
+  } catch (error) {
+    console.error(`[Logout error] ${API_BASE}/logout`, error);
+  }
+};
+
+// Checks if there's a current session
+export const currentUser = async () => {
+  try {
+    const response = await fetch(`${API_BASE}/user`, {
+      method: 'GET',
+      credentials: 'include'
+    });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (error) {
+    console.error(`[Session error] ${API_BASE}/session`, error);
+    return null;
+  }
+};
