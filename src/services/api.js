@@ -18,27 +18,27 @@ const cleanGet = async (url, fallback) => {
 };
 
 // Fetches all items in the database
-export const getAllItems = () =>
+const getAllItems = () =>
   cleanGet(`${API_BASE}/items`, []);
 
 // Searches items based on keywords
-export const searchItems = (searchQuery) =>
+const searchItems = (searchQuery) =>
   cleanGet(`${API_BASE}/items/search/${encodeURIComponent(searchQuery)}`, []);
 
 // Fetches all item categories
-export const getAllCategories = () =>
+const getAllCategories = () =>
   cleanGet(`${API_BASE}/items/allcategories`, []);
 
 // Fetches all items within an item category
-export const getItemsByCategory = (category) =>
+const getItemsByCategory = (category) =>
   cleanGet(`${API_BASE}/items/categories/${encodeURIComponent(category)}`, []);
 
 // Fetches one item by its ID
-export const getItemById = (id) =>
+const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
 // For logging in
-export const login = async (email, password) => {
+const login = async (email, password) => {
   try {
     const response = await fetch(`${API_BASE}/login`, {
       method: 'POST',
@@ -53,10 +53,10 @@ export const login = async (email, password) => {
   } catch (error) {
     console.error(`[Login error] ${API_BASE}/login`, error);
   }
-}
+};
 
 //For logging out
-export const logout = async () => {
+const logout = async () => {
   try {
     const response = await fetch(`${API_BASE}/logout`, {
       method: 'GET',
@@ -69,7 +69,7 @@ export const logout = async () => {
 };
 
 // Checks if there's a current session
-export const currentUser = async () => {
+const currentUser = async () => {
   try {
     const response = await fetch(`${API_BASE}/user`, {
       method: 'GET',
@@ -84,7 +84,7 @@ export const currentUser = async () => {
 };
 
 // For signing up
-export const signup = async (userData) => {
+const signup = async (userData) => {
   try {
     const response = await fetch(`${API_BASE}/signup`, {
       method: 'POST',
@@ -102,9 +102,8 @@ export const signup = async (userData) => {
     console.error(`[Signup error] ${API_BASE}/signup`, error);
     return null;
   }
-}
+};
 
-// Explicit named exports to satisfy bundlers picking up tree-shaken symbols
 export {
   getAllItems,
   searchItems,
