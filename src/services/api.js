@@ -44,14 +44,27 @@ const login = async (email, password) => {
       method: 'POST',
       credentials: 'include',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({email, password})
+      body: JSON.stringify({ email, password })
     });
+
+    let data = null;
+    try { data = await response.json(); } catch (_) {}
+
     if (!response.ok) {
-      throw new Error(`Login failed: ${response.statusText}`);
+      return {
+        success: false,
+        message: data?.message || `Login failed: ${response.status} ${response.statusText}`,
+        user: null
+      };
     }
-    return await response.json();
-  } catch (error) {
-    console.error(`[Login error] ${API_BASE}/login`, error);
+
+    return {
+      success: Boolean(data?.success ?? true),
+      user: data?.user ?? null,
+      message: data?.message ?? 'Login successful.'
+    };
+  } catch {
+    return { success: false, message: 'Network error during login. Please try again.', user: null };
   }
 };
 
