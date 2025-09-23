@@ -37,7 +37,6 @@ export const getItemsByCategory = (category) =>
 export const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
-
 // For logging in
 export const login = async (email, password) => {
   try {
@@ -82,4 +81,38 @@ export const currentUser = async () => {
     console.error(`[Session error] ${API_BASE}/session`, error);
     return null;
   }
+};
+
+// For signing up
+export const signup = async (userData) => {
+  try {
+    const response = await fetch(`${API_BASE}/signup`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(userData)
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Signup failed: ${response.statusText}`);
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error(`[Signup error] ${API_BASE}/signup`, error);
+    return null;
+  }
+}
+
+// Explicit named exports to satisfy bundlers picking up tree-shaken symbols
+export {
+  getAllItems,
+  searchItems,
+  getAllCategories,
+  getItemsByCategory,
+  getItemById,
+  login,
+  logout,
+  currentUser,
+  signup
 };
