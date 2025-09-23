@@ -13,7 +13,6 @@ function LoginPage(props) {
 
   const handleLogin = async (e) => {
     e.preventDefault()
-    console.log('Attempting login with', email, password);
     try {
       handleLoading(true);
       const response = await login(email, password);

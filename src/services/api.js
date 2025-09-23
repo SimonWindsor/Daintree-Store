@@ -40,8 +40,6 @@ export const getItemById = (id) =>
 
 // For logging in
 export const login = async (email, password) => {
-  console.log('API_BASE:', API_BASE);
-  console.log('Logging in:', email, password);
   try {
     const response = await fetch(`${API_BASE}/login`, {
       method: 'POST',
