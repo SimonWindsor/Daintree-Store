@@ -17,8 +17,8 @@ function LoginPage(props) {
       handleLoading(true);
       const response = await login(email, password);
       
-      if(!response.success) {
-        setMessage(response.message);
+      if(!response || !response.success) {
+        setMessage(response?.message || 'Login failed. Please try again later.');
         return;
       }
 

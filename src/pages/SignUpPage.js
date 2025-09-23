@@ -15,10 +15,10 @@ function SignUpPage(props) {
     e.preventDefault();
     try {
       handleLoading(true);
-      const response = await signup(email, password);
+      const response = await signup({ email, password });
       
-      if(!response.success) {
-        setMessage(response.message);
+      if(!response || !response.success) {
+        setMessage(response?.message || 'Signup failed. Please try again later.');
         return;
       }
 
