@@ -38,7 +38,7 @@ const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
 // For logging in
-const login = async (email, password) => {
+export const login = async (email, password) => {
   try {
     const response = await fetch(`${API_BASE}/login`, {
       method: 'POST',
@@ -47,24 +47,12 @@ const login = async (email, password) => {
       body: JSON.stringify({ email, password })
     });
 
-    let data = null;
-    try { data = await response.json(); } catch (_) {}
+    const data = await response.json(); // parse JSON even if status !== 200
+    return data;
 
-    if (!response.ok) {
-      return {
-        success: false,
-        message: data?.message || `Login failed: ${response.status} ${response.statusText}`,
-        user: null
-      };
-    }
-
-    return {
-      success: Boolean(data?.success ?? true),
-      user: data?.user ?? null,
-      message: data?.message ?? 'Login successful.'
-    };
-  } catch {
-    return { success: false, message: 'Network error during login. Please try again.', user: null };
+  } catch (error) {
+    console.error('[Login error]', error);
+    return { success: false, message: 'Network error' };
   }
 };
 
