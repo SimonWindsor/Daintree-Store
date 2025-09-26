@@ -31,11 +31,11 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
-  // Below is where the cart will be implemented
-  // const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // Fetches the current user if session is active
     (async () => {
       const currentUserData = await currentUser();
       if (currentUserData) setUser(currentUserData);

@@ -1,21 +1,39 @@
 const API_BASE = 'https://e-comm-project-production.up.railway.app';
 
-/* Made a fetching function for GET requests reusability- url is the complete 
-  endpoint to call while fallback is what gets returned in case of an error- 
-  this will be a null value or empty array
+/* Made a req endpoint to call. Url is the complete endpoint to call. Method is
+ the method of the request. Body is the body of the request. Fallback is what 
+ gets returned in case of an error- this will be a null value or empty array.
  */
-const cleanGet = async (url, fallback) => {
+const cleanRequest = async (url, method, body, fallback) => {
   try {
-    const response = await fetch(url);
+    const options = {
+      method: method,
+      credentials: 'include',
+    }
+
+    if (body !== null) {
+      options.headers = { 'Content-Type': 'application/json' };
+      options.body = JSON.stringify(body);
+    }
+
+    const response = await fetch(url, options);
+
     if (!response.ok) {
       throw new Error(`Request failed: ${response.statusText}`);
     }
+
     return await response.json();
   } catch (error) {
     console.error(`[Fetch error] ${url}`, error);
     return fallback;
   }
 };
+
+// Uses of cleanRequest for each method
+const cleanGet = (url, fallback) => cleanRequest(url, 'GET', null, fallback);
+const cleanPost = (url, body, fallback) => cleanRequest(url, 'POST', body, fallback);
+const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
+const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
 
 // Fetches all items in the database
 const getAllItems = () =>
@@ -37,73 +55,25 @@ const getItemsByCategory = (category) =>
 const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
+// Fetches user's cart
+const getCart = (email) =>
+  cleanGet(`${API_BASE}/cart/${encodeURIComponent(email)}`, []);
+
 // For logging in
-export const login = async (email, password) => {
-  try {
-    const response = await fetch(`${API_BASE}/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-
-    const data = await response.json(); // parse JSON even if status !== 200
-    return data;
-
-  } catch (error) {
-    console.error('[Login error]', error);
-    return { success: false, message: 'Network error' };
-  }
-};
+const login = (email, password) =>
+  cleanPost(`${API_BASE}/login`, { email, password }, null);
 
 //For logging out
-const logout = async () => {
-  try {
-    const response = await fetch(`${API_BASE}/logout`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-    return await response.json();
-  } catch (error) {
-    console.error(`[Logout error] ${API_BASE}/logout`, error);
-  }
-};
+const logout = async () => 
+  cleanPost(`${API_BASE}/logout`, null, null);
 
 // Checks if there's a current session
-const currentUser = async () => {
-  try {
-    const response = await fetch(`${API_BASE}/user`, {
-      method: 'GET',
-      credentials: 'include'
-    });
-    if (!response.ok) return null;
-    return await response.json();
-  } catch (error) {
-    console.error(`[Session error] ${API_BASE}/session`, error);
-    return null;
-  }
-};
+const currentUser = async () => 
+  cleanGet(`${API_BASE}/user`, null);
 
 // For signing up
-const signup = async (userData) => {
-  try {
-    const response = await fetch(`${API_BASE}/signup`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(userData)
-    });
-    
-    if (!response.ok) {
-      throw new Error(`Signup failed: ${response.statusText}`);
-    }
-    
-    return await response.json();
-  } catch (error) {
-    console.error(`[Signup error] ${API_BASE}/signup`, error);
-    return null;
-  }
-};
+const signup = async (userData) => 
+  cleanPost(`${API_BASE}/signup`, userData, null);
 
 export {
   getAllItems,
