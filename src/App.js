@@ -31,7 +31,7 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
-  const [cart, setCart] = useState([]);
+  //const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
