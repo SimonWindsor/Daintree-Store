@@ -81,7 +81,7 @@ export {
   getAllCategories,
   getItemsByCategory,
   getItemById,
-  getCart
+  getCart,
   login,
   logout,
   currentUser,
