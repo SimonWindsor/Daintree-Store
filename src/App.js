@@ -62,7 +62,7 @@ function App() {
         await createCart(cart);
       }
     })();
-  }, [cart]);
+  }, [cart, user]);
 
   // Handles search query changes
   const handleSearchChange = (e) => {
