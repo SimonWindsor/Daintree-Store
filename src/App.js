@@ -49,8 +49,8 @@ function App() {
     })();
   }, []);
 
-  userEffect(() => {
-    /* Handles cat changes, updates local storage if not logged in, otherwise
+  useEffect(() => {
+    /* Handles cart changes, updates local storage if not logged in, otherwise
       either creates cart with POST if not pre-existant or updates with PUT
     */
     (async () => {
