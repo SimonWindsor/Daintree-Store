@@ -40,11 +40,11 @@ function App() {
       const currentUserData = await currentUser();
       if (currentUserData) {
         setUser(currentUserData);
-        const serverCart = await getCart(user.email);
+        const serverCart = await getCart(currentUserData.email);
         setCart(serverCart || []);
       } else {
-        const localCart = localStorage.getItem(cartItems);
-        setCart(JSON.parse(localCart));
+        const localCart = localStorage.getItem("cartItems");
+        setCart(localCart ? JSON.parse(localCart) : []);
       }
     })();
   }, []);
@@ -55,10 +55,10 @@ function App() {
     */
     (async () => {
       if (!user) {
-        localStorage.setItem('cartItems', JSON.stringify(cart));
-      } else if (user && cart.length > 1) {
+        localStorage.setItem("cartItems", JSON.stringify(cart));
+      } else if (user && cart.length > 0) {
         await updateCart(cart);
-      } else {
+      } else if (user && cart.length === 0) {
         await createCart(cart);
       }
     })();

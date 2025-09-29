@@ -15,7 +15,7 @@ function HomePage() {
   const [categories, setCategories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
-  const { handleLoading } = useContext(FunctionContext);
+  const { handleLoading, addToCart } = useContext(FunctionContext);
 
   /* Depending on categoryBrowse state, use effect will determine which information to
     fetch from daabase */
@@ -60,7 +60,7 @@ function HomePage() {
             name={name}
             description={description}
             price={price}
-            onAdd={onAdd}
+            onAdd={addToCart}
           />
           )
         })}

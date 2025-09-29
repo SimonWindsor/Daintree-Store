@@ -35,7 +35,7 @@ function ItemPage() {
           <img 
             className="item-img"
             src={`${process.env.PUBLIC_URL}/assets/item-pictures/${item.picture}`}
-            alt={`${props.name}`}
+            alt={`${item.name}`}
           />
           <div className="item-details">
             <h2 className="item-heading">{item.name}</h2>
