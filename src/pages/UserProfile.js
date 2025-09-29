@@ -1,7 +1,9 @@
+import { useContext } from 'react';
+import { FunctionContext } from '../App';
 import './UserProfile.css';
 
-function UserProfile(props) {
-  const { user } = props;
+function UserProfile() {
+  const { user } = useContext(FunctionContext);
 
   return (
     <div className="UserProfile">

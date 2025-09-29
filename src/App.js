@@ -84,7 +84,7 @@ function App() {
   };
 
   // Updates number of items already in cart, or removes them
-  const updateCartItem = (itemId, quantity) => {
+  const updateCartItem= (itemId, quantity) => {
     const updatedCart = [...cart];
     
     if (quantity > 0) {
@@ -184,23 +184,34 @@ function App() {
 
       {/* Main container for the App and its routes. */}
       <div className='app-container'>
-        <FunctionContext.Provider value={{ /* Implemented in next iteration for cart */ }}>
-          <Routes>
-            <Route path="/" element={<HomePage handleLoading={handleLoading} onAdd={addToCart}/>} />
-            <Route path="/login" element={<LoginPage handleLoading={handleLoading} setUser={setUser} />} />
-            <Route path="/signup" element={<SignUpPage handleLoading={handleLoading} setUser={setUser} />} />
-            <Route path="/profile" element={<UserProfile user={user} />} />
-            <Route path="/search/:searchQuery" element={<SearchPage handleLoading={handleLoading} />} />
-            <Route path="/item/:id" element={<ItemPage handleLoading={handleLoading} />} />
-            <Route path="/cart" element={<CartPage handleLoading={handleLoading}/>}  />
-            <Route path="/checkout" element={<CheckoutPage/>} />
-            <Route path="/mypurchases" element={<UserPurchasesPage/>} />
-            <Route path="/purchases/:id" element={<PurchasePage/>} />
-            <Route path="/reviews/:id" element={<ReviewPage/>} />
-            <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage/>} />
-            <Route path="/myreviews" element={<UserReviewsPage/>} />
-          </Routes>
-        </FunctionContext.Provider>
+      <FunctionContext.Provider
+        value={{
+          handleLoading,
+          cart,
+          addToCart,
+          updateCartItem,
+          clearCart,
+          user,
+          setUser,
+          handleLogout
+        }}
+      >
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/search/:searchQuery" element={<SearchPage />} />
+          <Route path="/item/:id" element={<ItemPage />} />
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/mypurchases" element={<UserPurchasesPage />} />
+          <Route path="/purchases/:id" element={<PurchasePage />} />
+          <Route path="/reviews/:id" element={<ReviewPage />} />
+          <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage />} />
+          <Route path="/myreviews" element={<UserReviewsPage />} />
+        </Routes>
+      </FunctionContext.Provider>
         <div id="footer">2025 S.N.W</div>
       </div>
     </div>

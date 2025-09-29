@@ -1,19 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { getAllItems, getAllCategories } from '../services/api.js';
+import { FunctionContext } from '../App.js';
 import './HomePage.css';
+
 
 import ItemCard from '../components/ItemCard.js';
 import CategoryCard from '../components/CategoryCard.js';
 
 import daintreelogo from '../assets/daintreelogo.png';
 
-function HomePage(props) {
+function HomePage() {
   /* For containing all items or categories, as well as determining which ones ot browse */
   const [items, setItems] = useState([]); 
   const [categories, setCategories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
-  const { handleLoading } = props;
+  const { handleLoading } = useContext(FunctionContext);
 
   /* Depending on categoryBrowse state, use effect will determine which information to
     fetch from daabase */

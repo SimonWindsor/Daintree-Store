@@ -1,15 +1,16 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../services/api.js';
+import { FunctionContext } from '../App.js';
 
 import './LoginPage.css';
 
-function LoginPage(props) {
+function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { handleLoading, setUser } = props;
+  const { handleLoading, setUser } = useContext(FunctionContext);
 
   const handleLogin = async (e) => {
     e.preventDefault()

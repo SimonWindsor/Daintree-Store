@@ -1,15 +1,16 @@
 import { useParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { searchItems } from '../services/api.js';
+import { FunctionContext } from '../App.js';
 import './SearchPage.css';
 
 import ItemCard from '../components/ItemCard.js';
 
-function SearchPage(props) {
+function SearchPage() {
   const { searchQuery } = useParams();
   const [ results, setResults ] = useState([]);
 
-  const { handleLoading } = props;
+  const { handleLoading } = useContext(FunctionContext);
 
   useEffect(() => {
     const handleSearch = async () => {

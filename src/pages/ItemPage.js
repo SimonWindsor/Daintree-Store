@@ -1,13 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { getItemById } from '../services/api';
+import { FunctionContext } from '../App';
 import './ItemPage.css';
 
-function ItemPage(props) {
+function ItemPage() {
   const { id } = useParams();
   const [item, setItem] = useState();
 
-  const { handleLoading } = props;
+  const { handleLoading } = useContext(FunctionContext);
   
   useEffect(() => {
     const getItem = async () => {

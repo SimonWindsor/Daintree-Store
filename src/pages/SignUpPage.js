@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../services/api.js';
-
+import { FunctionContext } from '../App.js';
 import './SignUpPage.css';
 
-function SignUpPage(props) {
+function SignUpPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { handleLoading, setUser } = props;
+  const { handleLoading, setUser } = useContext(FunctionContext);
 
   const handleSignup = async (e) => {
     e.preventDefault();
