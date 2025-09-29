@@ -32,7 +32,7 @@ const cleanRequest = async (url, method, body, fallback) => {
 // Uses of cleanRequest for each method
 const cleanGet = (url, fallback) => cleanRequest(url, 'GET', null, fallback);
 const cleanPost = (url, body, fallback) => cleanRequest(url, 'POST', body, fallback);
-//const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
+const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
 //const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
 
 // Fetches all items in the database
@@ -56,8 +56,16 @@ const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
 // Fetches user's cart
-const getCart = (email) =>
-  cleanGet(`${API_BASE}/cart/${encodeURIComponent(email)}`, []);
+const getCart = () =>
+  cleanGet(`${API_BASE}/cart`, { items: [] });
+
+// Updates a user's cart
+const updateCart = (cart) =>
+  cleanPut(`${API_BASE}/cart`, { items: cart }, { items: [] });
+
+// Create's a user's cart if it doesn't exist
+const createCart = (cart) =>
+  cleanPost(`${API_BASE}/cart`, { items: cart }, { items: [] })
 
 // For logging in
 const login = (email, password) =>
@@ -82,6 +90,8 @@ export {
   getItemsByCategory,
   getItemById,
   getCart,
+  updateCart,
+  createCart,
   login,
   logout,
   currentUser,

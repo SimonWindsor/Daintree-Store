@@ -2,7 +2,9 @@ import './CartPage.css';
 
 function CartPage() {
   return (
-    <div className="CartPage"></div>
+    <div className="CartPage">
+      
+    </div>
   )
 }
 

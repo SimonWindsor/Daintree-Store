@@ -22,7 +22,7 @@ import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
 import searchIcon from './assets/search.png';
 import loadingIcon from './assets/loading.png';
-import { logout, currentUser } from './services/api';
+import { logout, currentUser, getCart, updateCart, createCart } from './services/api';
 
 export const FunctionContext = createContext();
 
@@ -31,32 +31,73 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
-  //const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState([]); // For storing the cart
   const navigate = useNavigate();
 
   useEffect(() => {
     // Fetches the current user if session is active
     (async () => {
       const currentUserData = await currentUser();
-      if (currentUserData) setUser(currentUserData);
+      if (currentUserData) {
+        setUser(currentUserData);
+        const serverCart = await getCart(user.email);
+        setCart(serverCart || []);
+      } else {
+        const localCart = localStorage.getItem(cartItems);
+        setCart(JSON.parse(localCart));
+      }
     })();
   }, []);
 
+  userEffect(() => {
+    /* Handles cat changes, updates local storage if not logged in, otherwise
+      either creates cart with POST if not pre-existant or updates with PUT
+    */
+    (async () => {
+      if (!user) {
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+      } else if (user && cart.length > 1) {
+        await updateCart(cart);
+      } else {
+        await createCart(cart);
+      }
+    })();
+  }, [cart]);
+
+  // Handles search query changes
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
+  // Logs the user out
   const handleLogout = async () => {
     await logout();
     setUser(null);
     navigate('/');
   };
 
-  // Below to be implemented in next iteration
-  // const addToCart = (itemId, quantity) => {
-  //   const updateCart = [...cart];
-  //   updateCart.push({itemId: itemId, quantity: quantity})
-  // };
+  // For quickly adding an item to a cart
+  const addToCart = (itemId, quantity) => {
+    const updatedCart = [...cart];
+    updatedCart.push({itemId: itemId, quantity: quantity});
+    setCart(updatedCart);
+  };
+
+  // Updates number of items already in cart, or removes them
+  const updateCartItem = (itemId, quantity) => {
+    const updatedCart = [...cart];
+    
+    if (quantity > 0) {
+      const itemIndex = updatedCart.findIndex(item => item.itemId === itemId);
+      updatedCart[itemIndex] = {itemID: itemId, quantity: quantity};
+      setCart(updatedCart);
+    } else {
+      setCart(updatedCart.filter(item => item.itemId !== itemId));
+    }
+  };
+
+  // Clears the cart
+  const clearCart = () => setCart([]);
 
   // Opens up a user menu for logged-in user. Activated by hamburger menu
   const showOrHideMenu = () => {
@@ -145,7 +186,7 @@ function App() {
       <div className='app-container'>
         <FunctionContext.Provider value={{ /* Implemented in next iteration for cart */ }}>
           <Routes>
-            <Route path="/" element={<HomePage handleLoading={handleLoading} />} />
+            <Route path="/" element={<HomePage handleLoading={handleLoading} onAdd={addToCart}/>} />
             <Route path="/login" element={<LoginPage handleLoading={handleLoading} setUser={setUser} />} />
             <Route path="/signup" element={<SignUpPage handleLoading={handleLoading} setUser={setUser} />} />
             <Route path="/profile" element={<UserProfile user={user} />} />

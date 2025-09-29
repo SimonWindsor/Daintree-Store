@@ -58,6 +58,7 @@ function HomePage(props) {
             name={name}
             description={description}
             price={price}
+            onAdd={onAdd}
           />
           )
         })}

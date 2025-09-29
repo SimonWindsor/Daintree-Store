@@ -44,6 +44,7 @@ function ItemPage(props) {
               <div>{item.description}</div>
             </div>
           </div>
+          <div className=""
         </div>
       ) : (
         <div>Item not found</div>

@@ -3,6 +3,9 @@ import './ItemCard.css';
 
 /* Displays a simple card for basic item information in search results, ot on home screen */
 function ItemCard(props) {
+  const addToCart = () => {
+    props.onAdd(props.id, 1);
+  };
 
   return (
     <Link className="item-card" to={`/item/${props.id}`}>
@@ -15,7 +18,7 @@ function ItemCard(props) {
       <div className="card-name">{props.name}</div>
       <span>
         <span className="card-price">{props.price}</span>
-        <span className="add-to-cart">ADD TO CART</span>
+        <span className="add-to-cart" onClick={addToCart}>ADD TO CART</span>
       </span>
       <div className="card-description">{props.description}</div>
     </Link>
