@@ -10,7 +10,7 @@ function CartPage() {
       <h2>Your Cart</h2>
       <div className='cart-list'>
         {cart.map((item) => {
-          const { id, picture, name, description, price, quantity } = item;
+          const { itemId, picture, name, price, quantity } = item;
 
           return (
           <CartCard
@@ -18,7 +18,6 @@ function CartPage() {
             id={id}
             picture={picture}
             name={name}
-            description={description}
             price={price}
             quantity={quantity}
             onUpdate={updateCartItem}

@@ -41,7 +41,7 @@ function App() {
       if (currentUserData) {
         setUser(currentUserData);
         const serverCart = await getCart(currentUserData.email);
-        setCart(serverCart || []);
+        setCart(serverCart.items || []);
       } else {
         const localCart = localStorage.getItem("cartItems");
         setCart(localCart ? JSON.parse(localCart) : []);
