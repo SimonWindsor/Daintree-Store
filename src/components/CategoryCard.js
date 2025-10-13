@@ -40,14 +40,14 @@ function CategoryCard(props) {
             const { id, picture, name, description, price } = item;
 
             return (
-            <ItemCard
-              key={id}
-              id={id}
-              picture={picture}
-              name={name}
-              description={description}
-              price={price}
-            />
+              <ItemCard
+                key={id}
+                id={id}
+                picture={picture}
+                name={name}
+                description={description}
+                price={price}
+              />
             )
           })}
         </div>

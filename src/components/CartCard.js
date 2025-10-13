@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './CartCard.css';
 
 function CartCard(props) {
-  const { id, picture, name, description, price, quantity, onUpdate } = props;
+  const { id, picture, name, price, quantity, onUpdate } = props;
   return (
     <div className='cart-card'>
       <Link to={`/item/${id}`}>

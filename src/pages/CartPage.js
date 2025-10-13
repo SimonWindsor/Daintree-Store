@@ -26,7 +26,7 @@ function CartPage() {
           )
         })}
       </div>
-      <button className='clear-cart-btn'>Clear Cart</button>
+      <button className='clear-cart-btn' onCllck={clearCart}>Clear Cart</button>
     </div>
   )
 }
