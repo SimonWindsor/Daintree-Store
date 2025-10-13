@@ -5,7 +5,7 @@ function CartCard(props) {
   const { itemId, picture, name, price, quantity, onUpdate } = props;
   return (
     <div className='cart-card'>
-      <Link to={`/item/${id}`}>
+      <Link to={`/item/${itemId}`}>
         <img
           loading="lazy"
           className="cart-card-img"
@@ -17,8 +17,8 @@ function CartCard(props) {
         {quantity}
       </span>
       <span className='qty-change-btns'>
-        <button className='subtract-btn' onClick={onUpdate(id, quantity - 1)}>-</button>
-        <button className='add-btn' onClick={onUpdate(id, quantity + 1)}>+</button>
+        <button className='subtract-btn' onClick={onUpdate(itemId, quantity - 1)}>-</button>
+        <button className='add-btn' onClick={onUpdate(itemId, quantity + 1)}>+</button>
       </span>
       <span classname='price'>
         {`$${price * quantity}`}
