@@ -14,8 +14,8 @@ function CartPage() {
 
           return (
           <CartCard
-            key={id}
-            id={id}
+            key={itemId}
+            itemId={itemId}
             picture={picture}
             name={name}
             price={price}
