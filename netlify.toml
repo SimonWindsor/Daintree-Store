@@ -6,7 +6,7 @@ headers = []
   [functions."*"]
 
 [build]
-publish = "/opt/build/repo/build"
+publish = "build"
 publishOrigin = "config"
 commandOrigin = "config"
 command = "npm run build"
