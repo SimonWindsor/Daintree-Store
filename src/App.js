@@ -89,7 +89,7 @@ function App() {
     
     if (quantity > 0) {
       const itemIndex = updatedCart.findIndex(item => item.itemId === itemId);
-      updatedCart[itemIndex] = {itemID: itemId, quantity: quantity};
+      updatedCart[itemIndex] = {itemId: itemId, quantity: quantity};
       setCart(updatedCart);
     } else {
       setCart(updatedCart.filter(item => item.itemId !== itemId));

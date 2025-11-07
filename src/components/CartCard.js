@@ -21,7 +21,7 @@ function CartCard(props) {
         <button className='add-btn' onClick={onUpdate(itemId, quantity + 1)}>+</button>
       </span>
       <span classname='price'>
-        {`$${price * quantity}`}
+        {`$${Number(price) * quantity}`}
       </span>
     </div>
   )
