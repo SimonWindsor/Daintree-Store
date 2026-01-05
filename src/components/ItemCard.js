@@ -18,13 +18,13 @@ function ItemCard(props) {
           src={`${process.env.PUBLIC_URL}/assets/item-pictures/${picture}`}
           alt={`${name}`}
           />
+          <div className="card-description">{description}</div>
       </Link>
       <div className="card-name">{name}</div>
       <span>
         <span className="card-price">{price}</span>
         <span className="add-to-cart" onClick={addToCart}>ADD TO CART</span>
       </span>
-      <div className="card-description">{description}</div>
     </div>
   )
 }

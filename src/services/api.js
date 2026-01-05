@@ -55,13 +55,72 @@ const getItemsByCategory = (category) =>
 const getItemById = (id) =>
   cleanGet(`${API_BASE}/items/id/${encodeURIComponent(id)}`, null);
 
-// Fetches user's cart
-const getCart = () =>
-  cleanGet(`${API_BASE}/cart`, { items: [] });
+const getCart = async () => {
+  try {
+    // First verify the user is authenticated
+    const user = await currentUser();
+    if (!user) {
+      console.log('No authenticated user found');
+      return { items: [] };
+    }
 
-// Updates a user's cart
-const updateCart = (cart) =>
-  cleanPut(`${API_BASE}/cart`, { items: cart }, { items: [] });
+    const response = await fetch(`${API_BASE}/cart`, {
+      method: 'GET',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    });
+    
+    // Log the raw response for debugging
+    console.log('Cart response status:', response.status);
+    const responseData = await response.json();
+    console.log('Cart response data:', responseData);
+
+    if (!response.ok) {
+      // Return empty cart for any error
+      console.error('Cart fetch error:', responseData);
+      return { items: [] };
+    }
+
+    // If we have valid cart data, return it
+    if (responseData && responseData.cart) {
+      return { items: responseData.cart.items || [] };
+    }
+
+    // Default to empty cart
+    return { items: [] };
+
+  } catch (error) {
+    console.error('Cart fetch error:', error);
+    return { items: [] };
+  }
+};
+
+// Update updateCart to better handle errors
+const updateCart = async (items) => {
+  try {
+    const response = await fetch(`${API_BASE}/cart`, {
+      method: 'PUT',
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ items })
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to update cart');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Update cart error:', error);
+    return { items: [] };
+  }
+};
 
 // Create's a user's cart if it doesn't exist
 const createCart = (cart) =>

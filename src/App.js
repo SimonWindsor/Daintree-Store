@@ -35,34 +35,76 @@ function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetches the current user if session is active
-    (async () => {
-      const currentUserData = await currentUser();
-      if (currentUserData) {
-        setUser(currentUserData);
-        const serverCart = await getCart(currentUserData.email);
-        setCart(serverCart.items || []);
-      } else {
-        const localCart = localStorage.getItem("cartItems");
-        setCart(localCart ? JSON.parse(localCart) : []);
+    const fetchUserAndCart = async () => {
+      try {
+        setLoading(true);
+        const currentUserData = await currentUser();
+        console.log('Current user data structure:', currentUserData); // Log full user data structure
+        
+        if (currentUserData) {
+          setUser(currentUserData);
+          try {
+            console.log('Attempting to fetch cart...'); // Debug log
+            const serverCart = await getCart();
+            console.log('Raw server cart response:', serverCart); // Log raw cart response
+            
+            if (serverCart && serverCart.items) {
+              console.log('Cart items found:', serverCart.items);
+              setCart(serverCart.items);
+            } else {
+              console.log('No items in cart, setting empty array');
+              setCart([]);
+            }
+          } catch (cartError) {
+            console.error('Cart fetch error details:', cartError); // Detailed cart error
+            setCart([]);
+          }
+        } else {
+          console.log('No user data returned from currentUser()');
+          setUser(null);
+          setCart([]);
+        }
+      } catch (error) {
+        console.error('Main fetch error:', error);
+        setUser(null);
+        setCart([]);
+      } finally {
+        setLoading(false);
       }
-    })();
-  }, []);
+    };
 
-  useEffect(() => {
-    /* Handles cart changes, updates local storage if not logged in, otherwise
-      either creates cart with POST if not pre-existant or updates with PUT
-    */
-    (async () => {
-      if (!user) {
-        localStorage.setItem("cartItems", JSON.stringify(cart));
-      } else if (user && cart.length > 0) {
-        await updateCart(cart);
-      } else if (user && cart.length === 0) {
-        await createCart(cart);
-      }
-    })();
-  }, [cart, user]);
+    fetchUserAndCart();
+  }, []);
+  
+  // useEffect(() => {
+  //   // Fetches the current user if session is active
+  //   (async () => {
+  //     const currentUserData = await currentUser();
+  //     if (currentUserData) {
+  //       setUser(currentUserData);
+  //       const serverCart = await getCart(currentUserData.email);
+  //       setCart(serverCart.items || []);
+  //     } else {
+  //       const localCart = localStorage.getItem("cartItems");
+  //       setCart(localCart ? JSON.parse(localCart) : []);
+  //     }
+  //   })();
+  // }, []);
+
+  // useEffect(() => {
+  //   /* Handles cart changes, updates local storage if not logged in, otherwise
+  //     either creates cart with POST if not pre-existant or updates with PUT
+  //   */
+  //   (async () => {
+  //     if (!user) {
+  //       localStorage.setItem("cartItems", JSON.stringify(cart));
+  //     } else if (user && cart.length > 0) {
+  //       await updateCart(cart);
+  //     } else if (user && cart.length === 0) {
+  //       await createCart(cart);
+  //     }
+  //   })();
+  // }, [cart, user]);
 
   // Handles search query changes
   const handleSearchChange = (e) => {
@@ -77,22 +119,54 @@ function App() {
   };
 
   // For quickly adding an item to a cart
-  const addToCart = (itemId, quantity) => {
-    const updatedCart = [...cart];
-    updatedCart.push({itemId: itemId, quantity: quantity});
-    setCart(updatedCart);
+  const addToCart = async (itemId, quantity) => {
+    try {
+      setLoading(true);
+      // Check if item already exists in cart
+      const existingItem = cart.find(item => item.itemId === itemId);
+      
+      let updatedCart;
+      if (existingItem) {
+        // If item exists, update its quantity
+        updatedCart = cart.map(item => 
+          item.itemId === itemId 
+            ? { ...item, quantity: item.quantity + quantity } 
+            : item
+        );
+      } else {
+        // If item doesn't exist, add it
+        updatedCart = [...cart, { itemId, quantity }];
+      }
+      
+      await updateCart(updatedCart);
+      setCart(updatedCart);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Updates number of items already in cart, or removes them
-  const updateCartItem= (itemId, quantity) => {
-    const updatedCart = [...cart];
-    
-    if (quantity > 0) {
-      const itemIndex = updatedCart.findIndex(item => item.itemId === itemId);
-      updatedCart[itemIndex] = {itemId: itemId, quantity: quantity};
+  const updateCartItem = async (itemId, quantity) => {
+    try {
+      setLoading(true);
+      let updatedCart;
+      
+      if (quantity > 0) {
+        updatedCart = cart.map(item => 
+          item.itemId === itemId ? { ...item, quantity } : item
+        );
+      } else {
+        updatedCart = cart.filter(item => item.itemId !== itemId);
+      }
+      
+      await updateCart(updatedCart);
       setCart(updatedCart);
-    } else {
-      setCart(updatedCart.filter(item => item.itemId !== itemId));
+    } catch (error) {
+      console.error('Error updating cart:', error);
+    } finally {
+      setLoading(false);
     }
   };
 

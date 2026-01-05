@@ -9,6 +9,7 @@
   color: #333333;
   text-decoration: none;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 .item-card:visited {
@@ -18,7 +19,6 @@
 
 .card-img {
   width: 100%;
-  cursor: pointer;
 }
 
 .card-name {
