@@ -85,8 +85,8 @@ const getCart = async () => {
     }
 
     // If we have valid cart data, return it
-    if (responseData && responseData.cart) {
-      return { items: responseData.cart.items || [] };
+    if (responseData && responseData.items) {
+      return { items: responseData.items || [] };
     }
 
     // Default to empty cart

@@ -74,7 +74,7 @@ function App() {
     };
 
     fetchUserAndCart();
-  }, []);
+  }, [user?.email]);
 
   useEffect(() => {
     /* Handles cart changes. If not logged in, persists cart to localStorage.
@@ -97,6 +97,7 @@ function App() {
   const handleLogout = async () => {
     await logout();
     setUser(null);
+    setCart([]);
     navigate('/');
   };
 
