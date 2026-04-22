@@ -22,7 +22,7 @@ import cartIcon from './assets/cart.png';
 import hamburgerIcon from './assets/hamburger.png';
 import searchIcon from './assets/search.png';
 import loadingIcon from './assets/loading.png';
-import { logout, currentUser, getCart, updateCart, createCart } from './services/api';
+import { logout, currentUser, getCart, updateCart } from './services/api';
 
 export const FunctionContext = createContext();
 
@@ -75,36 +75,18 @@ function App() {
 
     fetchUserAndCart();
   }, []);
-  
-  // useEffect(() => {
-  //   // Fetches the current user if session is active
-  //   (async () => {
-  //     const currentUserData = await currentUser();
-  //     if (currentUserData) {
-  //       setUser(currentUserData);
-  //       const serverCart = await getCart(currentUserData.email);
-  //       setCart(serverCart.items || []);
-  //     } else {
-  //       const localCart = localStorage.getItem("cartItems");
-  //       setCart(localCart ? JSON.parse(localCart) : []);
-  //     }
-  //   })();
-  // }, []);
 
-  // useEffect(() => {
-  //   /* Handles cart changes, updates local storage if not logged in, otherwise
-  //     either creates cart with POST if not pre-existant or updates with PUT
-  //   */
-  //   (async () => {
-  //     if (!user) {
-  //       localStorage.setItem("cartItems", JSON.stringify(cart));
-  //     } else if (user && cart.length > 0) {
-  //       await updateCart(cart);
-  //     } else if (user && cart.length === 0) {
-  //       await createCart(cart);
-  //     }
-  //   })();
-  // }, [cart, user]);
+  useEffect(() => {
+    /* Handles cart changes. If not logged in, persists cart to localStorage.
+     If logged in, syncs cart to server (upserts on conflict). */
+    (async () => {
+      if (!user && cart.length > 0) {
+        localStorage.setItem("cartItems", JSON.stringify(cart));
+      } else if (user && cart.length > 0) {
+        await updateCart(cart);
+      }
+    })();
+  }, [cart, user]);
 
   // Handles search query changes
   const handleSearchChange = (e) => {
@@ -158,6 +140,7 @@ function App() {
           item.itemId === itemId ? { ...item, quantity } : item
         );
       } else {
+        // If item doesn't exist, add it
         updatedCart = cart.filter(item => item.itemId !== itemId);
       }
       

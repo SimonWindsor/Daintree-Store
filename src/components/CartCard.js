@@ -17,8 +17,8 @@ function CartCard(props) {
         {quantity}
       </span>
       <span className='qty-change-btns'>
-        <button className='subtract-btn' onClick={onUpdate(itemId, quantity - 1)}>-</button>
-        <button className='add-btn' onClick={onUpdate(itemId, quantity + 1)}>+</button>
+        <button className='subtract-btn' onClick={() => onUpdate(itemId, quantity - 1)}>-</button>
+        <button className='add-btn' onClick={() => onUpdate(itemId, quantity + 1)}>+</button>
       </span>
       <span classname='price'>
         {`$${Number(price) * quantity}`}

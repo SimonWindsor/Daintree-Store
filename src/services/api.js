@@ -122,10 +122,6 @@ const updateCart = async (items) => {
   }
 };
 
-// Create's a user's cart if it doesn't exist
-const createCart = (cart) =>
-  cleanPost(`${API_BASE}/cart`, { items: cart }, { items: [] })
-
 // For logging in
 const login = (email, password) =>
   cleanPost(`${API_BASE}/login`, { email, password }, null);
@@ -150,7 +146,6 @@ export {
   getItemById,
   getCart,
   updateCart,
-  createCart,
   login,
   logout,
   currentUser,
