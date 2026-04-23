@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { signup } from '../services/api.js';
+import { validateSignUp} from '../services/validation.js';
 import { FunctionContext } from '../App.js';
 import './SignUpPage.css';
 
@@ -19,7 +20,14 @@ function SignUpPage() {
     e.preventDefault();
     try {
       handleLoading(true);
-      const response = await signup({ email, password });
+
+      const errors = validateSignUp({ firstName, lastName, phoneNumber, email, password, repeatPassword });
+      if (Object.keys(errors).length > 0) {
+        setMessage(Object.values(errors).join('\n'));
+        return;
+      }
+
+      const response = await signup({ email, firstName, lastName, phoneNumber, password });
       
       if(!response || !response.success) {
         setMessage(response?.message || 'Signup failed. Please try again later.');
@@ -30,7 +38,8 @@ function SignUpPage() {
       navigate('/');
     } catch(error) {
       console.error(`Unable to signup: ${error}`);
-      setMessage('Signup failed. Please try again later.');
+      setMessage(`Signup failed. Please try again later.
+        ${error}`);
     } finally {
       handleLoading(false);
     }
@@ -86,7 +95,7 @@ function SignUpPage() {
           type="password"
           placeholder="Repeat Password"
           value={repeatPassword}
-          onChange={e => setPassword(e.target.value)}
+          onChange={e => setRepeatPassword(e.target.value)}
           required
         />
         <button className="sign-up-submit" type="submit">Sign Up</button>

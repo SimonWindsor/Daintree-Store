@@ -12,17 +12,20 @@ function CartCard(props) {
           src={`${process.env.PUBLIC_URL}/assets/item-pictures/${picture}`}
           alt={`${name}`}
         />
+        <span className='cart-card-name'>{name}</span>
       </Link>
-      <span className='quantity'>
-        {quantity}
-      </span>
-      <span className='qty-change-btns'>
-        <button className='subtract-btn' onClick={() => onUpdate(itemId, quantity - 1)}>-</button>
-        <button className='add-btn' onClick={() => onUpdate(itemId, quantity + 1)}>+</button>
-      </span>
-      <span classname='price'>
-        {`$${Number(price) * quantity}`}
-      </span>
+      <div className="quanity-and-price">
+        <span className='qty-change-ctrls'>
+          <button className='subtract-btn' onClick={() => onUpdate(itemId, quantity - 1)}>-</button>
+          <span className='quantity'>
+            {quantity}
+          </span>
+          <button className='add-btn' onClick={() => onUpdate(itemId, quantity + 1)}>+</button>
+        </span>
+        <span className='price'>
+          {`$${(Number(price.replace('$', '')) * quantity).toFixed(2)}`}
+        </span>
+      </div>
     </div>
   )
 }
