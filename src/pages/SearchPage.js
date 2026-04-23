@@ -32,20 +32,12 @@ function SearchPage() {
       <h2>Search Results for "{searchQuery}"</h2>
         {results.length !== 0 ? (
           <div className="item-browser">
-            {results.map((item) => {
-              const {id, picture, name, description, price} = item;
-
-              return (
-                <ItemCard 
-                  key={id}
-                  id={id}
-                  picture={picture}
-                  name={name}
-                  description={description}
-                  price={price}
-                />
-              )
-            })}
+            {results.map((item) => (
+              <ItemCard 
+                key={item.id}
+                {...item}
+              />
+            ))}
           </div>
         ) : (
           <div>No results found</div>
