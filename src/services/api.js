@@ -122,6 +122,10 @@ const updateCart = async (items) => {
   }
 };
 
+// For getting reviews by item id
+const getReviewsByItemId = (id) =>
+  cleanGet(`${API_BASE}/reviews/items/${encodeURIComponent(id)}`, []);
+
 // For logging in
 const login = (email, password) =>
   cleanPost(`${API_BASE}/login`, { email, password }, null);
@@ -138,6 +142,8 @@ const currentUser = async () =>
 const signup = async (userData) => 
   cleanPost(`${API_BASE}/signup`, userData, null);
 
+// For 
+
 export {
   getAllItems,
   searchItems,
@@ -146,6 +152,7 @@ export {
   getItemById,
   getCart,
   updateCart,
+  getReviewsByItemId,
   login,
   logout,
   currentUser,
