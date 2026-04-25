@@ -49,21 +49,13 @@ function HomePage() {
   const showAllItems = () => {
     return (
       <div className="item-browser">
-        {items.map(item => {
-          const { id, picture, name, description, price } = item;
-
-          return (
+        {items.map(item => (
           <ItemCard
-            key={id}
-            id={id}
-            picture={picture}
-            name={name}
-            description={description}
-            price={price}
+            key={item.id}
             onAdd={addToCart}
+            {...item}
           />
-          )
-        })}
+        ))}
       </div>
     )
   }

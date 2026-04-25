@@ -242,18 +242,18 @@ function App() {
 
       {/* Main container for the App and its routes. */}
       <div className='app-container'>
-      <FunctionContext.Provider
-        value={{
-          handleLoading,
-          cart,
-          addToCart,
-          updateCartItem,
-          clearCart,
-          user,
-          setUser,
-          handleLogout
-        }}
-      >
+        <FunctionContext.Provider
+          value={{
+            handleLoading,
+            cart,
+            addToCart,
+            updateCartItem,
+            clearCart,
+            user,
+            setUser,
+            handleLogout
+          }}
+        >
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<LoginPage />} />
@@ -265,7 +265,6 @@ function App() {
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/mypurchases" element={<UserPurchasesPage />} />
           <Route path="/purchases/:id" element={<PurchasePage />} />
-          <Route path="/reviews/:id" element={<ReviewPage />} />
           <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage />} />
           <Route path="/myreviews" element={<UserReviewsPage />} />
         </Routes>

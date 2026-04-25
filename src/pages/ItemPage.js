@@ -1,12 +1,14 @@
 import { useState, useEffect, useContext } from 'react';
+import ReviewCard from '../components/ReviewCard';
 import { useParams } from 'react-router-dom';
-import { getItemById } from '../services/api';
+import { getItemById, getReviewsByItemId } from '../services/api';
 import { FunctionContext } from '../App';
 import './ItemPage.css';
 
 function ItemPage() {
   const { id } = useParams();
   const [item, setItem] = useState();
+  const [reviews, setReivews] = useState([]);
   const [inCart, setInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const { handleLoading, updateCartItem, cart } = useContext(FunctionContext);
@@ -15,8 +17,11 @@ function ItemPage() {
     const getItem = async () => {
       try {
         handleLoading(true);
-        const response = await getItemById(id);
-        setItem(response);
+        const itemResponse = await getItemById(id);
+        setItem(itemResponse);
+       // Get the item's reviews once item is set
+        const reviewsResponse = await (getReviewsByItemId(id));
+        setReivews(reviewsResponse);
       } catch (error) {
         console.log(error);
       } finally {
@@ -64,6 +69,14 @@ function ItemPage() {
             />
             <div className="add-to-cart" onClick={handleAdd}>
               {inCart ? 'UPDATE CART' : 'ADD TO CART'}
+            </div>
+          </div>
+          <div className="reviews-panel">
+            <h3>Reviews</h3>
+            <div className="reviews-list">
+              {reviews.map((review) => (
+                <ReviewCard key={review.id} {...review} />
+              ))}
             </div>
           </div>
         </div>

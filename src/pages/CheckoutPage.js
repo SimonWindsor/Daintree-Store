@@ -1,4 +1,3 @@
-
 import './CheckoutPage.css';
 
 function CheckoutPage() {

@@ -36,20 +36,12 @@ function CategoryCard(props) {
       <div className="scroller-container">
         <button className="left-btn" onClick={scrollLeft}>&lt;</button>
         <div className="scroller" ref={scrollRef}>
-          {items.map((item) => {
-            const { id, picture, name, description, price } = item;
-
-            return (
-              <ItemCard
-                key={id}
-                id={id}
-                picture={picture}
-                name={name}
-                description={description}
-                price={price}
-              />
-            )
-          })}
+          {items.map((item) => (
+            <ItemCard
+              key={item.id}
+              {...item}
+            />
+          ))}
         </div>
         <button className="right-btn" onClick={scrollRight}>&gt;</button>
       </div>
