@@ -72,12 +72,12 @@ function ItemPage() {
             </div>
           </div>
           <div className="reviews-panel">
-              <h3>Reviews</h3>
-              <div className="reviews-list">
-                {reviews.map((review) => (
-                  <ReviewCard key={review.id} {...review} />
-                ))}
-              </div>
+            <h3>Reviews</h3>
+            <div className="reviews-list">
+              {reviews.map((review) => (
+                <ReviewCard key={review.id} {...review} />
+              ))}
+            </div>
           </div>
         </div>
       ) : (

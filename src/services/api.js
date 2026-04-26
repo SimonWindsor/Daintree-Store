@@ -33,7 +33,7 @@ const cleanRequest = async (url, method, body, fallback) => {
 const cleanGet = (url, fallback) => cleanRequest(url, 'GET', null, fallback);
 const cleanPost = (url, body, fallback) => cleanRequest(url, 'POST', body, fallback);
 const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
-//const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
+const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
 
 // Fetches all items in the database
 const getAllItems = () =>
@@ -126,6 +126,22 @@ const updateCart = async (items) => {
 const getReviewsByItemId = (id) =>
   cleanGet(`${API_BASE}/reviews/items/${encodeURIComponent(id)}`, []);
 
+// For gettting all the user's reviews
+const getUserReviews = () => 
+  cleanGet(`${API_BASE}/reviews`, []);
+
+// For posting a review
+const postReview = (itemID, rating, comment) =>
+  cleanPost(`${API_BASE}/reviews`, { itemID, rating, comment }, null);
+
+// For updating a review
+const updateReview = (reviewID, rating, comment) =>
+  cleanPut(`${API_BASE}/reviews/${encodeURIComponent(reviewID)}`, { rating, comment }, null);
+
+// For deleting a review
+const deleteReview = (reviewID) =>
+  cleanDel(`${API_BASE}/reviews/${encodeURIComponent(reviewID)}`);
+
 // For logging in
 const login = (email, password) =>
   cleanPost(`${API_BASE}/login`, { email, password }, null);
@@ -153,6 +169,10 @@ export {
   getCart,
   updateCart,
   getReviewsByItemId,
+  getUserReviews,
+  postReview,
+  updateReview,
+  deleteReview,
   login,
   logout,
   currentUser,
