@@ -49,21 +49,13 @@ function HomePage() {
   const showAllItems = () => {
     return (
       <div className="item-browser">
-        {items.map(item => {
-          const { id, picture, name, description, price } = item;
-
-          return (
+        {items.map(item => (
           <ItemCard
-            key={id}
-            id={id}
-            picture={picture}
-            name={name}
-            description={description}
-            price={price}
+            key={item.id}
             onAdd={addToCart}
+            {...item}
           />
-          )
-        })}
+        ))}
       </div>
     )
   }
@@ -89,9 +81,11 @@ function HomePage() {
       <h1>Welcome to</h1>
       <img className="daintree-logo-home" alt="Daintree Logo" src={daintreelogo} />
       <div className="intro">
-        <p>Daintree is a mock online store created as a Full-Stack project by Simon Windsor. The items displayed here are not real. But the goal of this project is to create a functional web app that could be implemented into a real E-Commerce platform.</p>
+        <p>Daintree is a full-stack e-commerce web application currently under active development. It simulates a real online store, including product browsing, search functionality, and user authentication.</p>
 
-        <p>Browse below, try the search feature, or try and create an account or login. You will also be able to do some simulated shopping!</p>
+        <p>Built with React, Node.js, and SQL, focusing on API integration, state management, and scalable application structure.</p>
+
+        <p>Explore product listings, try the search feature, or create an account to interact with the application.</p>
       </div>
       {/* Determines whether to browse all items or by category */}
       <div className="browse-selector">
