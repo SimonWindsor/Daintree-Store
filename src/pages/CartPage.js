@@ -31,7 +31,7 @@ function CartPage() {
     } else {
       setCartItems([]);
     }
-  }, [cart])
+  }, [cart, handleLoading])
 
   useEffect(() =>{
     const calculateTotal = () => {

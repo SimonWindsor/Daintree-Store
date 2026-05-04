@@ -32,7 +32,7 @@ const cleanRequest = async (url, method, body, fallback) => {
 // Uses of cleanRequest for each method
 const cleanGet = (url, fallback) => cleanRequest(url, 'GET', null, fallback);
 const cleanPost = (url, body, fallback) => cleanRequest(url, 'POST', body, fallback);
-const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
+// const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
 //const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
 
 // Fetches all items in the database
