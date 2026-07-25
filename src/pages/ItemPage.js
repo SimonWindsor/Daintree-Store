@@ -80,7 +80,14 @@ function ItemPage() {
                 {inCart ? 'UPDATE CART' : 'ADD TO CART'}
               </button>
             </div>
-            <button className="review-btn" onClick={() => navigate(`/writereview/${id}`)}>
+            <button 
+              className="review-btn" 
+              onClick={() =>
+                navigate(`/writereview/${id}`, {
+                  state: {from: 'ItemPage'}
+                })
+              }
+            >
               {userReview ? "UPDATE/DELETE REVIEW" : "WRITE REVIEW"}
             </button>
           </div>

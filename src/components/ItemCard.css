@@ -37,7 +37,7 @@
   font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
-.add-to-cart {
+.item-card .add-to-cart {
   font-size: 1rem;
   cursor: pointer;
 }

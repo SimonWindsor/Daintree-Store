@@ -25,9 +25,11 @@ function ReviewCard(props) {
     <div className='review-card'>
       <div className="review-rating">{formatRating(rating)}</div>
       <div className="review-date">{formatTimestamp(timestamp)}</div>
-      <div className="review-name">
+      {/* first_name used to determine whther or not first_name exists. This componrnt
+      is used on both ItemPage and UserReviewsPage but the latter won't display first_name */}
+      {first_name && <div className="review-name">
         <span className="first-name">{first_name}</span> says:
-      </div>
+      </div>}
       <p>{review}</p>
     </div>
   )

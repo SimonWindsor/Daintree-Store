@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { getUserReviews, postReview, updateReview, deleteReview } from '../services/api';
 import { FunctionContext } from '../App';
 import './WriteReviewPage.css';
@@ -11,6 +11,7 @@ function WriteReviewPage() {
   const [rating, setRating] = useState(1);
   const {handleLoading, user} = useContext(FunctionContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect (() => {
     const loadReview = async () => {
@@ -37,31 +38,43 @@ function WriteReviewPage() {
     loadReview();    
   }, [handleLoading, id, user]);
 
-  const handleDelete = () => {
-    const confirmed = window.confirm("Are you sure you want to delete");
+  const handleNavigate = () => {
+    if (location.state?.from === 'UserReviews') {
+      navigate('/myreviews');
+    } else {
+      navigate(`/item/${id}`);
+    }
+  };
 
-    if(!confirmed) return;
+  const handleDelete = async () => {
+    if (!window.confirm("Are you sure you want to delete")) return;
 
     try {
-      deleteReview(userReview.id);
-      navigate(`/item/${id}`);
+      handleLoading(true)
+      await deleteReview(userReview.id);
+      handleNavigate();
     } catch (error) {
       console.log(error);
+    } finally {
+      handleLoading(false);
     }
   };
   
   const handleSumbit = async () => {
     try {
+    handleLoading(true);
+
     if (userReview) {
       await updateReview(userReview.id, rating, review);
     } else {
       await postReview(id, rating, review);
     }
-
-    navigate(`/item/${id}`);
-  } catch (error) {
-    console.error(error);
-  }
+      handleNavigate();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      handleLoading(false);
+    }
   };
 
   return (
@@ -81,7 +94,7 @@ function WriteReviewPage() {
         }}
       >
         <label htmlFor="rating">Choose Rating:</label>
-        <div id="rating">
+        <div className="rating-selector">
           {[1, 2, 3, 4, 5].map(star => (
             <span
               key={star}

@@ -13,8 +13,6 @@ function UserReviewsPage() {
       try {
         handleLoading(true);
         const reviewResponse = await getUserReviews();
-        console.log('hi');
-        console.log(reviewResponse);
         setReviews(reviewResponse);
       } catch (error) {
         console.error(error);
@@ -24,13 +22,21 @@ function UserReviewsPage() {
     }
 
     getReviews();
-  }, [])
+  }, [handleLoading])
   return (
-    <div className="UserReviewsSSPage">
+    <div className="UserReviewsPage">
       <h2>My Reviews</h2>
       {reviews.length > 0 ? (
         <div className="reviews-container">
-          {reviews.map((review) => <UserReviewCard key={review.id} {...review} />)}
+          {reviews.map((review) => 
+            <UserReviewCard 
+              key={review.id}
+              {...review} 
+              onDelete={reviewId =>
+                setReviews(reviews => reviews.filter(r => r.id !== reviewId))
+              }  
+            />
+          )}
         </div>
         ) : (<div>You haven't written any reviews yet.</div>
 
