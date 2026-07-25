@@ -2,11 +2,32 @@ import './ReviewCard.css';
 
 function ReviewCard(props) {
   const { first_name, rating, review, timestamp } = props;
+
+  const formatRating = (rating) => {
+    return (
+      <span className ="stars" aria-label={`Rating: ${rating} out of 5`}>
+        {[1, 2, 3, 4, 5].map(star => (
+          <span key={star} className={star <= rating ? "filled-star" : "empty-star"}>
+            ★
+          </span>
+        ))}
+      </span>
+    )
+  }
+
+  const formatTimestamp = (timestamp) => {
+    const date = new Date(timestamp);
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString(undefined, options);
+  }
+
   return (
     <div className='review-card'>
-      <div>{rating}/5</div>
-      <div>{timestamp}</div>
-      <h4>{`${first_name} says:`}</h4>
+      <div className="review-rating">{formatRating(rating)}</div>
+      <div className="review-date">{formatTimestamp(timestamp)}</div>
+      <div className="review-name">
+        <span className="first-name">{first_name}</span> says:
+      </div>
       <p>{review}</p>
     </div>
   )

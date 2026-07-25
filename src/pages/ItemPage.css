@@ -18,14 +18,30 @@
 .item-details {
   grid-area: detail;
   padding-left: 4rem;
+  position: relative;
 }
 
 .item-heading {
-  font-size: 3rem;;
+  font-size: 3rem;
+}
+
+.add-to-cart-ctrls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.qty-select {
+  height: 1rem;
+  box-sizing: border-box;
 }
 
 .add-to-cart {
+  padding: 0 1rem;
+  margin-left: 1rem;
   font-size: 1.2rem;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
@@ -40,6 +56,16 @@
 
 .item-price {
   font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.review-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.review-btn:hover{
+  color: red;
 }
 
 .reviews-panel {

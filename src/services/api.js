@@ -19,7 +19,9 @@ const cleanRequest = async (url, method, body, fallback) => {
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      throw new Error(`Request failed: ${response.statusText}`);
+      const text = await response.text();
+      console.log(text);
+      throw new Error(`Request failed: ${response.status} ${text}`);
     }
 
     return await response.json();
@@ -73,10 +75,8 @@ const getCart = async () => {
       }
     });
     
-    // Log the raw response for debugging
-    console.log('Cart response status:', response.status);
     const responseData = await response.json();
-    console.log('Cart response data:', responseData);
+
 
     if (!response.ok) {
       // Return empty cart for any error
@@ -131,16 +131,16 @@ const getUserReviews = () =>
   cleanGet(`${API_BASE}/reviews`, []);
 
 // For posting a review
-const postReview = (itemID, rating, comment) =>
-  cleanPost(`${API_BASE}/reviews`, { itemID, rating, comment }, null);
+const postReview = (itemId, rating, review) =>
+  cleanPost(`${API_BASE}/reviews`, { itemId, rating, review }, null);
 
 // For updating a review
-const updateReview = (reviewID, rating, comment) =>
-  cleanPut(`${API_BASE}/reviews/${encodeURIComponent(reviewID)}`, { rating, comment }, null);
+const updateReview = (reviewId, rating, review) =>
+  cleanPut(`${API_BASE}/reviews/${encodeURIComponent(reviewId)}`, { rating, review }, null);
 
 // For deleting a review
-const deleteReview = (reviewID) =>
-  cleanDel(`${API_BASE}/reviews/${encodeURIComponent(reviewID)}`);
+const deleteReview = (reviewId) =>
+  cleanDel(`${API_BASE}/reviews/${encodeURIComponent(reviewId)}`);
 
 // For logging in
 const login = (email, password) =>

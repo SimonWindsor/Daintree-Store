@@ -1,0 +1,18 @@
+.rating-selector span {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.filled-star {
+  color: gold;
+  cursor: pointer;
+}
+
+.empty-star {
+  color: lightgrey;
+  cursor: pointer;
+}
+
+#review {
+  display: block;
+}

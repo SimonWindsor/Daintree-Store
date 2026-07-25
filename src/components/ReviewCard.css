@@ -1,3 +1,15 @@
 .review-card {
 
 }
+
+.filled-star {
+    color: gold;
+}
+
+.empty-star {
+    color: lightgray;
+}
+
+.first-name {
+  font-weight: bold;
+}

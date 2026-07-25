@@ -1,8 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
-import ReviewCard from '../components/ReviewCard';
-import { useParams } from 'react-router-dom';
-import { getItemById, getReviewsByItemId } from '../services/api';
+import { useParams, useNavigate } from 'react-router-dom';
+import { getItemById, getReviewsByItemId, getUserReviews } from '../services/api';
 import { FunctionContext } from '../App';
+import ReviewCard from '../components/ReviewCard';
 import './ItemPage.css';
 
 function ItemPage() {
@@ -11,7 +11,9 @@ function ItemPage() {
   const [reviews, setReivews] = useState([]);
   const [inCart, setInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
-  const { handleLoading, updateCartItem, cart } = useContext(FunctionContext);
+  const [userReview, setUserReview] = useState(null);
+  const { handleLoading, updateCartItem, cart, user } = useContext(FunctionContext);
+  const navigate = useNavigate();
   
   useEffect(() => {
     const getItem = async () => {
@@ -19,9 +21,14 @@ function ItemPage() {
         handleLoading(true);
         const itemResponse = await getItemById(id);
         setItem(itemResponse);
-       // Get the item's reviews once item is set
-        const reviewsResponse = await (getReviewsByItemId(id));
+        // Get the item's reviews once item is set
+        const reviewsResponse = await getReviewsByItemId(id);
         setReivews(reviewsResponse);
+        // Checks if current user has reviewed item already
+        if(user) {
+          const userReviewsResponse = await getUserReviews();
+          setUserReview(userReviewsResponse.find(review => review.item_id === itemResponse.id));
+        }
       } catch (error) {
         console.log(error);
       } finally {
@@ -29,7 +36,7 @@ function ItemPage() {
       }
     }
     getItem();
-  }, [id, handleLoading]);
+  }, [id, handleLoading, user]);
 
   // Default quantity to whatever is already in the cart
   useEffect(() => {
@@ -61,15 +68,21 @@ function ItemPage() {
               <div className="item-price">{item.price}</div>
               <div>{item.description}</div>
             </div>
-            <input
-              type="number"
-              min="0"
-              value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value))}
-            />
-            <div className="add-to-cart" onClick={handleAdd}>
-              {inCart ? 'UPDATE CART' : 'ADD TO CART'}
+            <div className="add-to-cart-ctrls">
+              <input
+                className="qty-select"
+                type="number"
+                min="0"
+                value={quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+              />
+              <button className="add-to-cart" onClick={handleAdd}>
+                {inCart ? 'UPDATE CART' : 'ADD TO CART'}
+              </button>
             </div>
+            <button className="review-btn" onClick={() => navigate(`/writereview/${id}`)}>
+              {userReview ? "UPDATE/DELETE REVIEW" : "WRITE REVIEW"}
+            </button>
           </div>
           <div className="reviews-panel">
             <h3>Reviews</h3>
