@@ -19,7 +19,9 @@ const cleanRequest = async (url, method, body, fallback) => {
     const response = await fetch(url, options);
 
     if (!response.ok) {
-      throw new Error(`Request failed: ${response.statusText}`);
+      const text = await response.text();
+      console.log(text);
+      throw new Error(`Request failed: ${response.status} ${text}`);
     }
 
     return await response.json();
@@ -32,8 +34,8 @@ const cleanRequest = async (url, method, body, fallback) => {
 // Uses of cleanRequest for each method
 const cleanGet = (url, fallback) => cleanRequest(url, 'GET', null, fallback);
 const cleanPost = (url, body, fallback) => cleanRequest(url, 'POST', body, fallback);
-// const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
-//const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
+const cleanPut = (url, body, fallback) => cleanRequest(url, 'PUT', body, fallback);
+const cleanDel = (url) => cleanRequest(url, 'DELETE', null, null);
 
 // Fetches all items in the database
 const getAllItems = () =>
@@ -73,10 +75,8 @@ const getCart = async () => {
       }
     });
     
-    // Log the raw response for debugging
-    console.log('Cart response status:', response.status);
     const responseData = await response.json();
-    console.log('Cart response data:', responseData);
+
 
     if (!response.ok) {
       // Return empty cart for any error
@@ -122,6 +122,26 @@ const updateCart = async (items) => {
   }
 };
 
+// For getting reviews by item id
+const getReviewsByItemId = (id) =>
+  cleanGet(`${API_BASE}/reviews/items/${encodeURIComponent(id)}`, []);
+
+// For gettting all the user's reviews
+const getUserReviews = () => 
+  cleanGet(`${API_BASE}/reviews`, []);
+
+// For posting a review
+const postReview = (itemId, rating, review) =>
+  cleanPost(`${API_BASE}/reviews`, { itemId, rating, review }, null);
+
+// For updating a review
+const updateReview = (reviewId, rating, review) =>
+  cleanPut(`${API_BASE}/reviews/${encodeURIComponent(reviewId)}`, { rating, review }, null);
+
+// For deleting a review
+const deleteReview = (reviewId) =>
+  cleanDel(`${API_BASE}/reviews/${encodeURIComponent(reviewId)}`);
+
 // For logging in
 const login = (email, password) =>
   cleanPost(`${API_BASE}/login`, { email, password }, null);
@@ -138,6 +158,8 @@ const currentUser = async () =>
 const signup = async (userData) => 
   cleanPost(`${API_BASE}/signup`, userData, null);
 
+// For 
+
 export {
   getAllItems,
   searchItems,
@@ -146,6 +168,11 @@ export {
   getItemById,
   getCart,
   updateCart,
+  getReviewsByItemId,
+  getUserReviews,
+  postReview,
+  updateReview,
+  deleteReview,
   login,
   logout,
   currentUser,

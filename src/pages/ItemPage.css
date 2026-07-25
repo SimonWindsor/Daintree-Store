@@ -1,35 +1,78 @@
 .item-page {
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-areas: 
+    "picture detail"
+    "review review";
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 30rem auto;
 }
 
 .item-page .item-img {
-  width: 40%;
+  grid-area: picture;
+  width: 100%;
+  padding: 2rem;
+  object-fit: contain;
 }
 
-.item-page .item-details {
-  position: absolute;
-  right: 25%;
+.item-details {
+  grid-area: detail;
+  padding-left: 4rem;
+  position: relative;
 }
 
-.item-page .item-heading {
-  font-size: 3rem;;
+.item-heading {
+  font-size: 3rem;
+}
+
+.add-to-cart-ctrls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    align-items: center;
+}
+
+.qty-select {
+  height: 1rem;
+  box-sizing: border-box;
 }
 
 .item-page .add-to-cart {
+  padding: 0 1rem;
+  margin-left: 1rem;
   font-size: 1.2rem;
+  box-sizing: border-box;
   cursor: pointer;
 }
 
-.item-page .add-to-cart:hover {
+.add-to-cart:hover {
   color: red;
 }
 
-.item-page .price-and-descript {
+.price-and-descript {
   position: relative;
   bottom: 0;
 }
 
-.item-page .item-price {
+.item-price {
   font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.review-btn {
+  position: absolute;
+  bottom: 0.5rem;
+  cursor: pointer;
+}
+
+.review-btn:hover{
+  color: red;
+}
+
+.reviews-panel {
+  grid-area: review;
+  margin-top: 2rem;
+}
+
+h3 {
+  text-align: center;
 }

@@ -51,21 +51,13 @@ function CartPage() {
     <div className="CartPage">
       <h2>Your Cart</h2>
       <div className='cart-list'>
-        {cartItems.length > 0 && cartItems[0].price ? cartItems.map((item) => {
-          const {itemId, quantity, picture, name, price} = item;
-
-          return (
+        {cartItems.length > 0 && cartItems[0].price ? cartItems.map((item) => (
           <CartCard
-            key={itemId}
-            itemId={itemId}
-            picture={picture}
-            name={name}
-            price={price}
-            quantity={quantity}
+            key={item.itemId}
             onUpdate={updateCartItem}
+            {...item }
           />
-          )
-        }) : <p>Loading cart...</p>}
+        )) : <p>Loading cart...</p>}
       </div>
       <div className="cart-footer">
         <button className='clear-cart-btn' onClick={clearCart}>Clear Cart</button>

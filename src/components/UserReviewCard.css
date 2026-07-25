@@ -1,0 +1,17 @@
+.user-review-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.user-review-card .item-img {
+  height: 6rem;
+}
+
+.user-review-card .review-card .item_details {
+  display: flex;
+}
+
+.update-or-delete {
+  display: flex;
+  justify-content: space-around;
+}

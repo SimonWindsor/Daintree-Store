@@ -12,8 +12,7 @@ import ItemPage from './pages/ItemPage';
 import CheckoutPage from './pages/CheckoutPage';
 import PurchasePage from './pages/PurchasePage'
 import UserPurchasesPage from './pages/UserPurchasesPage';
-import ReviewPage from './pages/ReviewPage';
-import ItemReviewsPage from './pages/ItemReviewsPage';
+import WriteReviewPage from './pages/WriteReviewPage';
 import UserReviewsPage from './pages/UserReviewsPage';
 
 import daintreelogo from './assets/daintreelogo.png';
@@ -39,17 +38,12 @@ function App() {
       try {
         setLoading(true);
         const currentUserData = await currentUser();
-        console.log('Current user data structure:', currentUserData); // Log full user data structure
         
         if (currentUserData) {
           setUser(currentUserData);
           try {
-            console.log('Attempting to fetch cart...'); // Debug log
             const serverCart = await getCart();
-            console.log('Raw server cart response:', serverCart); // Log raw cart response
-            
             if (serverCart && serverCart.items) {
-              console.log('Cart items found:', serverCart.items);
               setCart(serverCart.items);
             } else {
               console.log('No items in cart, setting empty array');
@@ -242,34 +236,33 @@ function App() {
 
       {/* Main container for the App and its routes. */}
       <div className='app-container'>
-      <FunctionContext.Provider
-        value={{
-          handleLoading,
-          cart,
-          addToCart,
-          updateCartItem,
-          clearCart,
-          user,
-          setUser,
-          handleLogout
-        }}
-      >
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/profile" element={<UserProfile />} />
-          <Route path="/search/:searchQuery" element={<SearchPage />} />
-          <Route path="/item/:id" element={<ItemPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/mypurchases" element={<UserPurchasesPage />} />
-          <Route path="/purchases/:id" element={<PurchasePage />} />
-          <Route path="/reviews/:id" element={<ReviewPage />} />
-          <Route path="/reviews/:itemId/:id" element={<ItemReviewsPage />} />
-          <Route path="/myreviews" element={<UserReviewsPage />} />
-        </Routes>
-      </FunctionContext.Provider>
+        <FunctionContext.Provider
+          value={{
+            handleLoading,
+            cart,
+            addToCart,
+            updateCartItem,
+            clearCart,
+            user,
+            setUser,
+            handleLogout
+          }}
+        >
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
+            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/search/:searchQuery" element={<SearchPage />} />
+            <Route path="/item/:id" element={<ItemPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/mypurchases" element={<UserPurchasesPage />} />
+            <Route path="/purchases" element={<PurchasePage />} />
+            <Route path="/writereview/:id" element={<WriteReviewPage />} />
+            <Route path="/myreviews" element={<UserReviewsPage />} />
+          </Routes>
+        </FunctionContext.Provider>
         <div id="footer">2025 S.N.W</div>
       </div>
     </div>
