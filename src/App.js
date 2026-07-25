@@ -149,7 +149,19 @@ function App() {
   };
 
   // Clears the cart
-  const clearCart = () => setCart([]);
+  const clearCart = async () => {
+    try {
+      handleLoading(true)
+      if (!window.confirm('Are you sure you want to clear your cart?')) return;
+      
+      await updateCart([]);
+      setCart([]);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      handleLoading(false)
+    }
+  }
 
   // Opens up a user menu for logged-in user. Activated by hamburger menu
   const showOrHideMenu = () => {

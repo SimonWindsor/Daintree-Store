@@ -12,7 +12,7 @@ function ItemPage() {
   const [inCart, setInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [userReview, setUserReview] = useState(null);
-  const { handleLoading, updateCartItem, cart, user } = useContext(FunctionContext);
+  const { handleLoading, addToCart, updateCartItem, cart, user } = useContext(FunctionContext);
   const navigate = useNavigate();
   
   useEffect(() => {
@@ -50,7 +50,11 @@ function ItemPage() {
   }, [cart, id]);
 
   const handleAdd = () => {
-    updateCartItem(id, quantity);
+    if (inCart) {
+      updateCartItem(id, quantity);
+    } else {
+      addToCart(id, quantity);
+    }
   };
 
   return (

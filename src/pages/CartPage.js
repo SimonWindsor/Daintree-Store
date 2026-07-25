@@ -7,7 +7,7 @@ import { getItemById } from '../services/api.js';
 
 function CartPage() {
   const { handleLoading, cart, updateCartItem, clearCart} = useContext(FunctionContext);
-  const [cartItems, setCartItems] = useState(cart);
+  const [cartItems, setCartItems] = useState([]); // must be empty initially then enriched
   const [total, setTotal] = useState('$0');
 
   useEffect(() => {
@@ -16,6 +16,7 @@ function CartPage() {
         handleLoading(true);
         const enriched = await Promise.all(cart.map(async (item) => {
           const response = await getItemById(item.itemId);
+
           return {...item, ...response};
         }));
         setCartItems(enriched);
@@ -35,15 +36,20 @@ function CartPage() {
 
   useEffect(() =>{
     const calculateTotal = () => {
+      if (cartItems.length === 0) {
+        setTotal("0.00");
+        return;
+      }
+
       const totalPrice = cartItems.reduce((acc, item) => {
+        if (!item.price) return acc; // return 0 incase price is missing
+
         return acc + (Number(item.price.replace('$', '')) * item.quantity);
       }, 0);
       setTotal(`$${totalPrice.toFixed(2)}`);
     };
 
-    if (cartItems.length > 0 && cartItems[0]?.price) {
-      calculateTotal();
-    }
+    calculateTotal();
   }, [cartItems]);
 
 
@@ -57,7 +63,7 @@ function CartPage() {
             onUpdate={updateCartItem}
             {...item }
           />
-        )) : <p>Loading cart...</p>}
+        )) : <p>Cart is empty</p>}
       </div>
       <div className="cart-footer">
         <button className='clear-cart-btn' onClick={clearCart}>Clear Cart</button>
