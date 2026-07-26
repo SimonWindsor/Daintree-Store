@@ -9,34 +9,25 @@ function WriteReviewPage() {
   const [userReview, setUserReview] = useState(null);
   const [review, setReview] = useState("");
   const [rating, setRating] = useState(1);
-  const {handleLoading, user} = useContext(FunctionContext);
+  const { withLoading, user } = useContext(FunctionContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect (() => {
-    const loadReview = async () => {
-      try {
-        handleLoading(true);
-        if(user) {
-            const userReviewsResponse = await getUserReviews();
-            const existingReview = userReviewsResponse.find(review => review.item_id === id);
+    withLoading(async () => {
+      if(user) {
+        const userReviewsResponse = await getUserReviews();
+        const existingReview = userReviewsResponse.find(review => review.item_id === id);
 
-            setUserReview(existingReview);
+        setUserReview(existingReview);
 
-            if(existingReview) {
-              setReview(existingReview.review);
-              setRating(existingReview.rating);
-            }
+        if(existingReview) {
+          setReview(existingReview.review);
+          setRating(existingReview.rating);
         }
-      } catch(error) {
-        console.log(error);
-      } finally {
-        handleLoading(false);
       }
-    }
-
-    loadReview();    
-  }, [handleLoading, id, user]);
+    });
+  }, [withLoading, id, user]);
 
   const handleNavigate = () => {
     if (location.state?.from === 'UserReviews') {
@@ -49,32 +40,21 @@ function WriteReviewPage() {
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete")) return;
 
-    try {
-      handleLoading(true)
+    await withLoading(async () => {
       await deleteReview(userReview.id);
       handleNavigate();
-    } catch (error) {
-      console.log(error);
-    } finally {
-      handleLoading(false);
-    }
+    });
   };
   
   const handleSumbit = async () => {
-    try {
-    handleLoading(true);
-
-    if (userReview) {
-      await updateReview(userReview.id, rating, review);
-    } else {
-      await postReview(id, rating, review);
-    }
+    await withLoading(async () => {
+      if (userReview) {
+        await updateReview(userReview.id, rating, review);
+      } else {
+        await postReview(id, rating, review);
+      }
       handleNavigate();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      handleLoading(false);
-    }
+    });
   };
 
   return (

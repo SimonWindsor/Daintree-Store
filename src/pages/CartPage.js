@@ -6,33 +6,24 @@ import './CartPage.css';
 import { getItemById } from '../services/api.js';
 
 function CartPage() {
-  const { handleLoading, cart, updateCartItem, clearCart} = useContext(FunctionContext);
-  const [cartItems, setCartItems] = useState([]); // must be empty initially then enriched
+  const { withLoading, cart, updateCartItem, clearCart} = useContext(FunctionContext);
+  const [cartItems, setCartItems] = useState(cart);
   const [total, setTotal] = useState('$0');
 
   useEffect(() => {
-    const enrichCart = async () => {
-      try {
-        handleLoading(true);
+    if (cart.length > 0) {
+      withLoading(async () => {
         const enriched = await Promise.all(cart.map(async (item) => {
           const response = await getItemById(item.itemId);
 
           return {...item, ...response};
         }));
         setCartItems(enriched);
-      } catch (error) {
-        console.error('Error enriching cart:', error);
-      } finally {
-        handleLoading(false);
-      }
-    };
-
-    if (cart.length > 0) {
-      enrichCart();
+      });
     } else {
       setCartItems([]);
     }
-  }, [cart, handleLoading])
+  }, [cart, withLoading])
 
   useEffect(() =>{
     const calculateTotal = () => {

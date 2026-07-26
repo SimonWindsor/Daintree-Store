@@ -8,20 +8,15 @@ import './UserReviewCard.css';
 function UserReviewCard(props) {
   const { id, item_id, item_name, rating, review, timestamp, item_picture, onDelete } = props;
   const navigate = useNavigate();
-  const { handleLoading } = useContext(FunctionContext);
+  const { withLoading } = useContext(FunctionContext);
 
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete?')) return;
 
-    try {
-      handleLoading(true);
+    await withLoading(async () => {
       await deleteReview(id);
       onDelete(id);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      handleLoading(false);
-    }
+    });
   }
 
   return (

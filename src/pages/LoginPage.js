@@ -10,27 +10,26 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { handleLoading, setUser } = useContext(FunctionContext);
+  const { withLoading, setUser } = useContext(FunctionContext);
 
   const handleLogin = async (e) => {
-    e.preventDefault()
-    try {
-      handleLoading(true);
-      const response = await login(email, password);
-      
-      if(!response || !response.success) {
-        setMessage(response?.message || 'Login failed. Please try again later.');
-        return;
-      }
+    e.preventDefault();
+    await withLoading(async () => {
+      try {
+        const response = await login(email, password);
+        
+        if(!response || !response.success) {
+          setMessage(response?.message || 'Login failed. Please try again later.');
+          return;
+        }
 
-      setUser(response.user);
-      navigate('/');
-    } catch(error) {
-      console.error(`Unable to login: ${error}`);
-      setMessage('Login failed. Please try again later.');
-    } finally {
-      handleLoading(false);
-    }
+        setUser(response.user);
+        navigate('/');
+      } catch(error) {
+        console.error(`Unable to login: ${error}`);
+        setMessage('Login failed. Please try again later.');
+      }
+    });
   }
 
   return (

@@ -15,31 +15,21 @@ function HomePage() {
   const [categories, setCategories] = useState([]); 
   const [categoryBrowse, setCategoryBrowse] = useState(false);
 
-  const { handleLoading, addToCart } = useContext(FunctionContext);
+  const { withLoading, addToCart } = useContext(FunctionContext);
 
   /* Depending on categoryBrowse state, use effect will determine which information to
     fetch from daabase */
   useEffect(() => {
-    const displayItemsOrCategories = async () => {
-      try {
-        handleLoading(true);
-
-        if (categoryBrowse) {
-          const response = await getAllCategories();
-          setCategories(response);
-        } else {
-          const response = await getAllItems();
-          setItems(response);
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        handleLoading(false);
+    withLoading(async () => {
+      if (categoryBrowse) {
+        const response = await getAllCategories();
+        setCategories(response);
+      } else {
+        const response = await getAllItems();
+        setItems(response);
       }
-    };
-
-    displayItemsOrCategories();
-  }, [categoryBrowse, handleLoading])
+    });
+  }, [categoryBrowse, withLoading])
 
   const handleCategoryChange = (e) => {
     setCategoryBrowse(!categoryBrowse);

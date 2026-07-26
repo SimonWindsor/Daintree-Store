@@ -31,44 +31,61 @@ function App() {
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
   const [cart, setCart] = useState([]); // For storing the cart
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // For navigating to outher pages/routes
+
+  // Memoizes the function so it is not called on every render of other pages/componets
+  // May change to setLoading(!loading) later but needs to be this way for now
+  const handleLoading = useCallback((trueOrFalse) => {
+    setLoading(trueOrFalse);
+  }, []);
+
+  // Handles async functions that use handleLoading
+  const withLoading = useCallback(async (callback) => {
+    try {
+      handleLoading(true);
+      await callback();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      handleLoading(false);
+    }
+  }, [handleLoading]);
 
   useEffect(() => {
     const fetchUserAndCart = async () => {
-      try {
-        setLoading(true);
-        const currentUserData = await currentUser();
-        
-        if (currentUserData) {
-          setUser(currentUserData);
-          try {
-            const serverCart = await getCart();
-            if (serverCart && serverCart.items) {
-              setCart(serverCart.items);
-            } else {
-              console.log('No items in cart, setting empty array');
+      await withLoading(async () => {
+        try {
+          const currentUserData = await currentUser();
+          
+          if (currentUserData) {
+            setUser(currentUserData);
+            try {
+              const serverCart = await getCart();
+              if (serverCart && serverCart.items) {
+                setCart(serverCart.items);
+              } else {
+                console.log('No items in cart, setting empty array');
+                setCart([]);
+              }
+            } catch (cartError) {
+              console.error('Cart fetch error details:', cartError); // Detailed cart error
               setCart([]);
             }
-          } catch (cartError) {
-            console.error('Cart fetch error details:', cartError); // Detailed cart error
+          } else {
+            console.log('No user data returned from currentUser()');
+            setUser(null);
             setCart([]);
           }
-        } else {
-          console.log('No user data returned from currentUser()');
+        } catch (error) {
+          console.error('Main fetch error:', error);
           setUser(null);
           setCart([]);
         }
-      } catch (error) {
-        console.error('Main fetch error:', error);
-        setUser(null);
-        setCart([]);
-      } finally {
-        setLoading(false);
-      }
+      });
     };
 
     fetchUserAndCart();
-  }, [user?.email]);
+  }, [user?.email, withLoading]);
 
   useEffect(() => {
     /* Handles cart changes. If not logged in, persists cart to localStorage.
@@ -97,8 +114,7 @@ function App() {
 
   // For quickly adding an item to a cart
   const addToCart = async (itemId, quantity) => {
-    try {
-      setLoading(true);
+    await withLoading(async () => {
       // Check if item already exists in cart
       const existingItem = cart.find(item => item.itemId === itemId);
       
@@ -117,17 +133,12 @@ function App() {
       
       await updateCart(updatedCart);
       setCart(updatedCart);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   // Updates number of items already in cart, or removes them
   const updateCartItem = async (itemId, quantity) => {
-    try {
-      setLoading(true);
+    await withLoading(async () => {
       let updatedCart;
       
       if (quantity > 0) {
@@ -135,17 +146,12 @@ function App() {
           item.itemId === itemId ? { ...item, quantity } : item
         );
       } else {
-        // If item doesn't exist, add it
         updatedCart = cart.filter(item => item.itemId !== itemId);
       }
       
       await updateCart(updatedCart);
       setCart(updatedCart);
-    } catch (error) {
-      console.error('Error updating cart:', error);
-    } finally {
-      setLoading(false);
-    }
+    });
   };
 
   // Clears the cart
@@ -167,7 +173,7 @@ function App() {
   const showOrHideMenu = () => {
     if (menuOpen) { 
       return (
-        <ul>
+        <ul onClick={() => setMenuOpen(false)}>
           <li><Link className="menu-item" to="/profile">My Profile</Link></li>
           <li><Link className="menu-item" to="/mypurchases">My Purchases</Link></li>
           <li><Link className="menu-item" to="/myreviews">My Reviews</Link></li>
@@ -178,12 +184,6 @@ function App() {
       return null;
     }
   };
-
-  // Memoizes the function so it is not called on every render of other pages/componets
-  // May change to setLoading(!loading) later but needs to be this way for now
-  const handleLoading = useCallback((trueOrFalse) => {
-    setLoading(trueOrFalse);
-  }, []);
 
   return (
     <div className="App">
@@ -250,7 +250,7 @@ function App() {
       <div className='app-container'>
         <FunctionContext.Provider
           value={{
-            handleLoading,
+            withLoading,
             cart,
             addToCart,
             updateCartItem,
