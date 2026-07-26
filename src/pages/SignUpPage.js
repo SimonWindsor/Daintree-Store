@@ -14,35 +14,33 @@ function SignUpPage() {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { handleLoading, setUser } = useContext(FunctionContext);
+  const { withLoading, setUser } = useContext(FunctionContext);
 
   const handleSignup = async (e) => {
     e.preventDefault();
-    try {
-      handleLoading(true);
+    await withLoading(async () => {
+      try {
+        const errors = validateSignUp({ firstName, lastName, phoneNumber, email, password, repeatPassword });
+        if (Object.keys(errors).length > 0) {
+          setMessage(Object.values(errors).join('\n'));
+          return;
+        }
 
-      const errors = validateSignUp({ firstName, lastName, phoneNumber, email, password, repeatPassword });
-      if (Object.keys(errors).length > 0) {
-        setMessage(Object.values(errors).join('\n'));
-        return;
-      }
+        const response = await signup({ email, firstName, lastName, phoneNumber, password });
+        
+        if(!response || !response.success) {
+          setMessage(response?.message || 'Signup failed. Please try again later.');
+          return;
+        }
 
-      const response = await signup({ email, firstName, lastName, phoneNumber, password });
-      
-      if(!response || !response.success) {
-        setMessage(response?.message || 'Signup failed. Please try again later.');
-        return;
-      }
-
-      setUser(response.user);
-      navigate('/');
-    } catch(error) {
-      console.error(`Unable to signup: ${error}`);
-      setMessage(`Signup failed. Please try again later.
+        setUser(response.user);
+        navigate('/');
+      } catch(error) {
+        console.error(`Unable to signup: ${error}`);
+        setMessage(`Signup failed. Please try again later.
         ${error}`);
-    } finally {
-      handleLoading(false);
-    }
+      }
+    });
   }
 
   return (

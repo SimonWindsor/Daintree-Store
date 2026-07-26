@@ -6,23 +6,14 @@ import './UserReviewsPage.css';
 
 function UserReviewsPage() {
   const [ reviews, setReviews ] = useState([]);
-  const { handleLoading } = useContext(FunctionContext);
+  const { withLoading } = useContext(FunctionContext);
 
   useEffect(() => {
-    const getReviews = async () => {
-      try {
-        handleLoading(true);
-        const reviewResponse = await getUserReviews();
-        setReviews(reviewResponse);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        handleLoading(false);
-      }
-    }
-
-    getReviews();
-  }, [handleLoading])
+    withLoading(async () => {
+      const reviewResponse = await getUserReviews();
+      setReviews(reviewResponse);
+    });
+  }, [withLoading])
   return (
     <div className="UserReviewsPage">
       <h2>My Reviews</h2>

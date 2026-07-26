@@ -12,31 +12,23 @@ function ItemPage() {
   const [inCart, setInCart] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [userReview, setUserReview] = useState(null);
-  const { handleLoading, updateCartItem, cart, user } = useContext(FunctionContext);
+  const { withLoading, updateCartItem, cart, user } = useContext(FunctionContext);
   const navigate = useNavigate();
   
   useEffect(() => {
-    const getItem = async () => {
-      try {
-        handleLoading(true);
-        const itemResponse = await getItemById(id);
-        setItem(itemResponse);
-        // Get the item's reviews once item is set
-        const reviewsResponse = await getReviewsByItemId(id);
-        setReivews(reviewsResponse);
-        // Checks if current user has reviewed item already
-        if(user) {
-          const userReviewsResponse = await getUserReviews();
-          setUserReview(userReviewsResponse.find(review => review.item_id === itemResponse.id));
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        handleLoading(false);
+    withLoading(async () => {
+      const itemResponse = await getItemById(id);
+      setItem(itemResponse);
+      // Get the item's reviews once item is set
+      const reviewsResponse = await getReviewsByItemId(id);
+      setReivews(reviewsResponse);
+      // Checks if current user has reviewed item already
+      if(user) {
+        const userReviewsResponse = await getUserReviews();
+        setUserReview(userReviewsResponse.find(review => review.item_id === itemResponse.id));
       }
-    }
-    getItem();
-  }, [id, handleLoading, user]);
+    });
+  }, [id, withLoading, user]);
 
   // Default quantity to whatever is already in the cart
   useEffect(() => {

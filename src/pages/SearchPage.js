@@ -10,22 +10,14 @@ function SearchPage() {
   const { searchQuery } = useParams();
   const [ results, setResults ] = useState([]);
 
-  const { handleLoading } = useContext(FunctionContext);
+  const { withLoading } = useContext(FunctionContext);
 
   useEffect(() => {
-    const handleSearch = async () => {
-      try {
-        handleLoading(true);
-        const searchResponse = await searchItems(searchQuery);
-        setResults(searchResponse);
-      } catch(error) {
-        console.error(error);
-      } finally {
-        handleLoading(false);
-      }
-    }
-    handleSearch();  
-  }, [searchQuery, handleLoading]);
+    withLoading(async () => {
+      const searchResponse = await searchItems(searchQuery);
+      setResults(searchResponse);
+    });
+  }, [searchQuery, withLoading]);
 
   return (
     <div className="SearchPage">
