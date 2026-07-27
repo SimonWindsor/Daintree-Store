@@ -3,6 +3,10 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
+.user-review-card:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
 .user-review-card .item-img {
   height: 6rem;
 }

@@ -31,6 +31,7 @@ function App() {
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
   const [cart, setCart] = useState([]); // For storing the cart
+  const cartCount = cart.reduce((total, item) => total + item.quantity, 0); // Calculates total cart amount
   const navigate = useNavigate(); // For navigating to outher pages/routes
 
   // Memoizes the function so it is not called on every render of other pages/componets
@@ -170,7 +171,7 @@ function App() {
   }
 
   // Opens up a user menu for logged-in user. Activated by hamburger menu
-  const showOrHideMenu = () => {
+  const renderMenu = () => {
     if (menuOpen) { 
       return (
         <ul onClick={() => setMenuOpen(false)}>
@@ -224,7 +225,15 @@ function App() {
             />
           </Link>
           <Link to="/cart">
-            <img className="cart" src={cartIcon} alt="Cart"/>
+            <img 
+              className="cart" 
+              src={cartIcon} 
+              alt="Cart"
+            />
+            {/* Shows the cart badge if items are in cart */}
+            {cartCount > 0 && (
+              <span className="cart-badge">{cartCount}</span>
+            )}
           </Link>
           {user ? (
             <div>
@@ -233,7 +242,7 @@ function App() {
                 src={hamburgerIcon} alt="User Menu" 
                 onClick={() => setMenuOpen(!menuOpen)}
               />
-              {showOrHideMenu() /* Toggles hamburger menu */}
+              {renderMenu() /* Toggles hamburger menu */}
             </div>
           ) : (
             /*Displays login link instead of hamburger if not logged in */

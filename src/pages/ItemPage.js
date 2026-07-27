@@ -47,6 +47,7 @@ function ItemPage() {
     } else {
       addToCart(id, quantity);
     }
+    navigate('/cart');
   };
 
   return (
