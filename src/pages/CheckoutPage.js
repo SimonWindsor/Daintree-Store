@@ -2,7 +2,9 @@ import './CheckoutPage.css';
 
 function CheckoutPage() {
   return (
-    <div className="CheckOutPage"></div>
+    <div className="CheckOutPage">
+      
+    </div>
   )
 }
 

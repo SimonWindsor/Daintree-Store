@@ -41,6 +41,10 @@ function ItemPage() {
     }
   }, [cart, id]);
 
+  const handleQuantityChange = (e) => {
+    setQuantity(Math.max(1, parseInt(e.target.value) || 1));
+  }
+
   const handleAdd = () => {
     if (inCart) {
       updateCartItem(id, quantity);
@@ -61,18 +65,32 @@ function ItemPage() {
           />
           <div className="item-details">
             <h2 className="item-heading">{item.name}</h2>
-            <div className="price-and-descript">
+            <div className="price-and-availability">
               <div className="item-price">{item.price}</div>
-              <div>{item.description}</div>
+              {item.num_available === 0 ? (
+                <div className="out-of-stock">Out of stock</div>
+                ) : (
+                  <div className="num-available">In stock: {item.num_available}</div>
+              )}
+            </div>
+            <div className="item-description">
+              {item.description}
             </div>
             <div className="add-to-cart-ctrls">
-              <input
-                className="qty-select"
-                type="number"
-                min="0"
-                value={quantity}
-                onChange={(e) => setQuantity(parseInt(e.target.value))}
-              />
+              <div className="qty-select" >
+                <input
+                  className="qty-input"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                />
+                <div className="qty-btns">
+                  <button onClick={() => setQuantity(q => Math.max(1, q + 1))}>▲</button>
+                  <button onClick={() => setQuantity(q => Math.max(1, q - 1))}>▼</button>
+                </div>
+              </div>
               <button className="add-to-cart" onClick={handleAdd}>
                 {inCart ? 'UPDATE CART' : 'ADD TO CART'}
               </button>
@@ -89,7 +107,7 @@ function ItemPage() {
             </button>
           </div>
           <div className="reviews-panel">
-            <h3>Reviews</h3>
+            <h3 className="reviews-heading">Reviews</h3>
             <div className="reviews-list">
               {reviews.map((review) => (
                 <ReviewCard key={review.id} {...review} />

@@ -34,7 +34,7 @@ function CategoryCard(props) {
     <div className="category-card">
       <h3>{`${name}`}</h3>
       <div className="scroller-container">
-        <button className="left-btn" onClick={scrollLeft}>&lt;</button>
+        <button className="left-btn" onClick={scrollLeft}>◀</button>
         <div className="scroller" ref={scrollRef}>
           {items.map((item) => (
             <ItemCard
@@ -43,7 +43,7 @@ function CategoryCard(props) {
             />
           ))}
         </div>
-        <button className="right-btn" onClick={scrollRight}>&gt;</button>
+        <button className="right-btn" onClick={scrollRight}>▶</button>
       </div>
     </div>
   )

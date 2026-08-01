@@ -25,20 +25,75 @@
   font-size: 3rem;
 }
 
+.price-and-availability {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+.item-price {
+  font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size: 1.2rem;
+}
+
+.num-available,
+.out-of-stock {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: green;
+}
+
+.out-of-stock {
+  color: red;
+}
+
+.item-description {
+  margin-bottom: 2rem;
+}
+
 .add-to-cart-ctrls {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;
+  align-items: center;
 }
 
 .qty-select {
-  height: 1rem;
+  display: flex;
+  justify-content: space-between;
+  height: 3rem;
   box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.qty-input {
+  border: none;
+  height: 100%;
+  width: 85%;
+  background-color: transparent;
+}
+.qty-btns {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 15%;
+  box-sizing: content-box;
+}
+
+.qty-btns button {
+  border: none;
+  background-color: transparent;
+  height: 50%;
+  width: 2rem;
+  cursor: pointer;
 }
 
 .item-page .add-to-cart {
   padding: 0 1rem;
+  height: 3rem;
   margin-left: 1rem;
   font-size: 1.2rem;
   box-sizing: border-box;
@@ -47,15 +102,6 @@
 
 .add-to-cart:hover {
   color: red;
-}
-
-.price-and-descript {
-  position: relative;
-  bottom: 0;
-}
-
-.item-price {
-  font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .review-btn {
@@ -70,9 +116,10 @@
 
 .reviews-panel {
   grid-area: review;
-  margin-top: 2rem;
+  margin-top: 4rem;
 }
 
-h3 {
+.reviews-heading {
   text-align: center;
+  font-family: Merriweather, 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
