@@ -1,4 +1,5 @@
 import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CartCard from '../components/CartCard';
 import { FunctionContext } from '../App';
 import './CartPage.css';
@@ -9,6 +10,7 @@ function CartPage() {
   const { withLoading, cart, updateCartItem, clearCart} = useContext(FunctionContext);
   const [cartItems, setCartItems] = useState(cart);
   const [total, setTotal] = useState('$0');
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -59,7 +61,12 @@ function CartPage() {
       <div className="cart-footer">
         <button className='clear-cart-btn' onClick={clearCart}>Clear Cart</button>
         <div className="total-price">TOTAL: ${Number(total.replace('$', '')).toFixed(2)}</div>
-        <button className='proceed-btn'>Proceed to Checkout</button>
+        <button 
+          className='proceed-btn'
+          onClick={() => cartItems.length > 0 && navigate('/checkout')}
+        >
+          Proceed to Checkout
+        </button>
       </div>
     </div>
   )
