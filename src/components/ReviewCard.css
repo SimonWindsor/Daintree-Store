@@ -1,3 +1,4 @@
-.first-name {
+/* Scoped to avoid style conflicts elsewhere */
+.ReviewCard .first-name {
   font-weight: bold;
 }

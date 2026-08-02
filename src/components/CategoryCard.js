@@ -6,7 +6,7 @@ import ItemCard from './ItemCard.js'
 
 /* Displays a simple card containing item cards based on category */
 function CategoryCard(props) {
-  const { name } = props;
+  const { name, onAdd } = props;
   const [items, setItems] = useState([]);
   const scrollRef = useRef(null); // For scrolling the cards
 
@@ -39,6 +39,7 @@ function CategoryCard(props) {
           {items.map((item) => (
             <ItemCard
               key={item.id}
+              onAdd={onAdd}
               {...item}
             />
           ))}

@@ -59,6 +59,7 @@ function HomePage() {
           <CategoryCard
             key={category.category}
             name={category.category}
+            onAdd={addToCart}
           />
           )
         })}

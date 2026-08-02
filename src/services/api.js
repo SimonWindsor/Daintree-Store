@@ -20,7 +20,6 @@ const cleanRequest = async (url, method, body, fallback) => {
 
     if (!response.ok) {
       const text = await response.text();
-      console.log(text);
       throw new Error(`Request failed: ${response.status} ${text}`);
     }
 
@@ -62,7 +61,6 @@ const getCart = async () => {
     // First verify the user is authenticated
     const user = await currentUser();
     if (!user) {
-      console.log('No authenticated user found');
       return { items: [] };
     }
 
