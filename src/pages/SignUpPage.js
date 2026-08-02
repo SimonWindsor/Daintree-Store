@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { signup } from '../services/api.js';
 import { validateSignUp} from '../services/validation.js';
 import { FunctionContext } from '../App.js';
@@ -14,6 +14,7 @@ function SignUpPage() {
   const [repeatPassword, setRepeatPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
   const { withLoading, setUser } = useContext(FunctionContext);
 
   const handleSignup = async (e) => {
@@ -34,7 +35,9 @@ function SignUpPage() {
         }
 
         setUser(response.user);
-        navigate('/');
+
+        // If from checkout, navigate back to checkout, otherwise navigate to home page
+        navigate(location.state?.from || "/");
       } catch(error) {
         console.error(`Unable to signup: ${error}`);
         setMessage(`Signup failed. Please try again later.
@@ -99,7 +102,14 @@ function SignUpPage() {
         <button className="sign-up-submit" type="submit">Sign Up</button>
       </form>
       <div className="signup-message" id="signupMessage">{message}</div>
-      <div className="login-link">Already have an account? <Link to="/login">Log in</Link></div>
+      <div className="login-prompt">
+        Already have an account? <Link 
+          to="/login" 
+          state={location.state}
+        >
+          Log in
+        </Link>
+      </div>
     </div>
   )
 }

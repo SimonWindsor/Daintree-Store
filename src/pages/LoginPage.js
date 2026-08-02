@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../services/api.js';
 import { FunctionContext } from '../App.js';
 
@@ -10,7 +10,8 @@ function LoginPage() {
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
-  const { withLoading, setUser } = useContext(FunctionContext);
+  const location = useLocation();
+  const { withLoading, handleLoginSuccess } = useContext(FunctionContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -23,8 +24,10 @@ function LoginPage() {
           return;
         }
 
-        setUser(response.user);
-        navigate('/');
+        handleLoginSuccess(response.user);
+
+        // If from checkout, navigate back to checkout, otherwise navigate to home page
+        navigate(location.state?.from || "/");
       } catch(error) {
         console.error(`Unable to login: ${error}`);
         setMessage('Login failed. Please try again later.');
@@ -50,7 +53,14 @@ function LoginPage() {
         <button className="login-submit" type="submit">Login</button>
       </form>
       <div className="login-message" id="loginMessage">{message}</div>
-      <div className="sign-up">New User? <Link to="/signup">Sign up</Link></div> 
+      <div className="sign-up">
+        New User? <Link 
+          to="/signup"
+          state={location.state}
+        >
+          Sign up
+        </Link>
+      </div> 
     </div>
   )
 }

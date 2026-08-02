@@ -1,4 +1,4 @@
-import React, { useState, createContext, useCallback, useEffect } from 'react';
+import React, { useState, createContext, useCallback, useEffect, useRef } from 'react';
 import { Routes, Route, Link, useNavigate } from 'react-router-dom';
 import './App.css';
 
@@ -26,11 +26,18 @@ import { logout, currentUser, getCart, updateCart } from './services/api';
 export const FunctionContext = createContext();
 
 function App() {
+  /* For loading the cart from localStorage if user is not logged in. Returns
+    an empty array if no cart is found. Moved to top so it can be used in useState */
+  const loadLocalCart = () => {
+    return JSON.parse(localStorage.getItem("cartItems")) || [];
+  };
+
   const [searchQuery, setSearchQuery] = useState(''); // For handling search query
   const [menuOpen, setMenuOpen] = useState(false); // For controlling user-menu
   const [loading, setLoading] = useState(false); // For showing loading icon
   const [user, setUser] = useState(null); // For controlling user-menu and login state
-  const [cart, setCart] = useState([]); // For storing the cart
+  const [cart, setCart] = useState(loadLocalCart); // For storing the cart
+  const initialSyncComplete = useRef(false); // For preventing double sync of cart on initial load
   const cartCount = cart.reduce((total, item) => total + item.quantity, 0); // Calculates total cart amount
   const navigate = useNavigate(); // For navigating to outher pages/routes
 
@@ -63,24 +70,24 @@ function App() {
             try {
               const serverCart = await getCart();
               if (serverCart && serverCart.items) {
+                initialSyncComplete.current = true; // Mark initial sync as complete
                 setCart(serverCart.items);
               } else {
-                console.log('No items in cart, setting empty array');
-                setCart([]);
+                initialSyncComplete.current = true; // Mark initial sync as complete
+                setCart(loadLocalCart());
               }
             } catch (cartError) {
               console.error('Cart fetch error details:', cartError); // Detailed cart error
-              setCart([]);
+              setCart(loadLocalCart());
             }
           } else {
-            console.log('No user data returned from currentUser()');
             setUser(null);
-            setCart([]);
+            setCart(loadLocalCart());
           }
         } catch (error) {
           console.error('Main fetch error:', error);
           setUser(null);
-          setCart([]);
+          setCart(loadLocalCart());
         }
       });
     };
@@ -92,24 +99,34 @@ function App() {
     /* Handles cart changes. If not logged in, persists cart to localStorage.
      If logged in, syncs cart to server (upserts on conflict). */
     (async () => {
-      if (!user && cart.length > 0) {
+      if (initialSyncComplete.current) {
+        initialSyncComplete.current = false; // consume the flag, reset for next time
+        return;
+      }
+      if (!user) {
         localStorage.setItem("cartItems", JSON.stringify(cart));
-      } else if (user && cart.length > 0) {
+      } else {
         await updateCart(cart);
       }
     })();
-  }, [cart, user]);
+  }, [user?.email, cart]);
 
   // Handles search query changes
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
+  // Handles successful login by setting the user data and marking initial sync complete
+  const handleLoginSuccess = (userData) => {
+    initialSyncComplete.current = true; // skip next sync — server cart will be fetched fresh
+    setUser(userData);
+  };
+
   // Logs the user out
   const handleLogout = async () => {
     await logout();
+    initialSyncComplete.current = true; // skip the next sync — so local cart can return
     setUser(null);
-    setCart([]);
     navigate('/');
   };
 
@@ -132,7 +149,7 @@ function App() {
         updatedCart = [...cart, { itemId, quantity }];
       }
       
-      await updateCart(updatedCart);
+      if (user) await updateCart(updatedCart);
       setCart(updatedCart);
     });
   };
@@ -150,7 +167,7 @@ function App() {
         updatedCart = cart.filter(item => item.itemId !== itemId);
       }
       
-      await updateCart(updatedCart);
+      if (user) await updateCart(updatedCart);
       setCart(updatedCart);
     });
   };
@@ -161,7 +178,7 @@ function App() {
       handleLoading(true)
       if (!window.confirm('Are you sure you want to clear your cart?')) return;
       
-      await updateCart([]);
+      if (user)await updateCart([]);
       setCart([]);
     } catch (error) {
       console.log(error);
@@ -265,7 +282,7 @@ function App() {
             updateCartItem,
             clearCart,
             user,
-            setUser,
+            handleLoginSuccess,
             handleLogout
           }}
         >
