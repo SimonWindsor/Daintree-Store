@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FunctionContext } from '../App';
 import CheckoutAccount from '../components/CheckoutAccount';
 import CheckoutShipping from '../components/CheckoutShipping';
 import CheckoutPayment from '../components/CheckoutPayment';
@@ -8,14 +9,16 @@ import './CheckoutPage.css';
 
 function CheckoutPage() {
   const [stage, setStage] = useState(1); // 1: Account 2: Shipping, 3: Payment, 4: Review
+  const { withLoading, user, cart } = useContext(FunctionContext);
   const navigate = useNavigate();
 
   return (
-    <div className="CheckOutPage">
-      {stage === 1 && <CheckoutAccount />}
-      {stage === 2 && <CheckoutShipping />}
-      {stage === 3 && <CheckoutPayment />}
-      {stage === 4 && <CheckoutReview />}
+    <div className="CheckoutPage">
+      <h2 className='checkout-header'>Checkout</h2>
+      {stage === 1 && <CheckoutAccount onStageChange={setStage} />}
+      {stage === 2 && <CheckoutShipping onStageChange={setStage} />}
+      {stage === 3 && <CheckoutPayment onStageChange={setStage} />}
+      {stage === 4 && <CheckoutReview onStageChange={setStage} />}
     </div>
   )
 }
