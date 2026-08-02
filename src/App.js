@@ -109,6 +109,11 @@ function App() {
         await updateCart(cart);
       }
     })();
+    /* user?.email is used instead of user to prevent refiring of this useEffect
+      when user object changes but email remains the same. This prevents cart being
+      replaced with local storage cart.
+    */
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user?.email, cart]);
 
   // Handles search query changes
